@@ -111,8 +111,10 @@ class AuthController extends Controller{
         if($item['error']||empty($item['info'])){
             return $this->response->error($item['message'],$this->forbidden_code);
         }
-
-
+        if(!$token=auth('api')->login($item['info'])){
+            return $this->response->error('登录失败，请确认账号是否正确',$this->unauth_code);
+        }
+        return $this->withResponseToken('登录成功',$token);
     }
     /**
      * 微信快捷绑定
@@ -124,7 +126,7 @@ class AuthController extends Controller{
             'mobile.required'=>'手机号不能为空',
             'driver_name.required'=>'姓名不能为空',
             'nickName.required'=>'昵称不能为空',
-            'avatarUrl.required'=>'头像补不能为空',
+            'avatarUrl.required'=>'头像不能为空',
             'routine_openid.required'=>'openid不能为空'
         ];
         $validator=Validator::make($request->all(),[
@@ -137,7 +139,7 @@ class AuthController extends Controller{
         if($validator->fails()){
             return $this->response->error($validator->errors()->first(),$this->forbidden_code);
         }
-        if(!$supinfo=$supplier->where(['driver_name'=>$request->input('driver_name'),'status'=>1])->first()){
+        if(!$supinfo=$supplier->where(['driver_name'=>$request->input('driver_name'),'mobile'=>$request->input('mobile'),'status'=>1])->first()){
             return $this->response->error('无此账号或账号已停用',$this->forbidden_code);
         }
         if($supinfo->update(
@@ -145,10 +147,11 @@ class AuthController extends Controller{
             if(!$token=auth('api')->login($supinfo)){
                 return $this->response->error('绑定失败，请确认账号是否正确',$this->unauth_code);
             }
+            return $this->withResponseToken('绑定成功',$token);
         }else{
             return $this->response->error('绑定失败',$this->forbidden_code);
         }
-        return $this->withResponseToken('绑定成功',$token);
+
     }
     /**
      * 供应商配置

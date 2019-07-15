@@ -31,7 +31,10 @@ $api->version('v1',[
         $api->post('miniLogin','AuthController@routeLogin');
         //供应商微信绑定
         $api->post('/weixin/bind','AuthController@bind');
-        //供货商供货
+
+        $api->group(['middleware'=>'authToken'],function ($api){
+
+        });
         //$api->get();
     });
     //企业通知
@@ -42,7 +45,10 @@ $api->version('v1',[
     $api->group(['prefix'=>'subscribe'],function ($api){
         //临时供货
         $api->get('temp','SubscribeController@temp');
+        //供货商供货
+        $api->get('sup','SubscribeController@supplier')->middleware('authToken');
     });
+    //
 
 });
 Route::middleware('auth:api')->get('/user', function (Request $request) {

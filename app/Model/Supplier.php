@@ -86,9 +86,9 @@ class Supplier extends Authenticatable implements JWTSubject
         $routineInfo['headimgurl'] = $routine['avatarUrl'];//头像
         $routineInfo['routine_openid'] = $routine['routine_openid'];//openid
         //根据小程序openid判断
-        if(!$supplier=$this->where(['routine_openid'=>$routineInfo['routine_openid'],'status'=>1])->count()){
+        if(!$supplier=$this->where(['routine_openid'=>$routineInfo['routine_openid'],'status'=>1])->first()){
            $data['error']=1;
-           $data['message']='该微信没有绑定相关账号';
+           $data['message']='该微信没有绑定相关账号或停用';
         }else{
             $this->where(['routine_openid'=>$routineInfo['routine_openid']])
                 ->update(['nickname'=>$routineInfo['nickname'],'headimgurl'=>$routineInfo['headimgurl']]);
