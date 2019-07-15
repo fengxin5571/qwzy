@@ -36,4 +36,9 @@ class SubscribeGoods extends Eloquent
 		'is_temp',
 		'is_sup'
 	];
+	//获取对应货品
+	public static function getTypeGoods($type=1,$fields=['*']){
+	    $where=$type==1?['is_temp'=>'1']:['is_sup'=>'1'];
+	    return self::where($where)->get($fields);
+    }
 }

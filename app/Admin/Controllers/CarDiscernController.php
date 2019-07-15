@@ -51,6 +51,7 @@ class CarDiscernController extends AdminController{
         $grid->column('car_region','地区代号')->display(function ($car_region){
             return "<span class='label label-info'>{$car_region}</span>";
         });
+        $grid->column('status','状态')->using(['0'=>'<span class=\'label label-danger\'>隐藏</span>','1'=>'<span class=\'label label-success\'>显示</span>']);
         $grid->filter(function($filter){
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
@@ -63,6 +64,7 @@ class CarDiscernController extends AdminController{
     protected function form(){
         $form=new Form(new CarDiscern);
         $form->text('car_region','地区代号')->rules(['required']);
+        $form->radio('status','状态')->options(['0'=>'隐藏','1'=>'显示'])->default(1);
         $form->tools(function (Form\Tools $tools) {
             // 去掉`查看`按钮
             $tools->disableView();

@@ -7,6 +7,8 @@
  */
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
+use App\Model\CarDiscern;
+use App\Model\CarLetter;
 use App\Model\SubscribeGoods;
 use App\Model\SubscribeSupply;
 use App\Services\SmsService;
@@ -14,6 +16,30 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 class SubscribeController extends Controller{
+    /**
+     * 车牌地区识别
+     * @param Request $request
+     */
+    public function carDiscern(Request $request){
+        $data=CarDiscern::where('status',1)->get(['id','car_region']);
+        return $this->successResponse($data);
+    }
+
+    /**
+     * 车牌字母
+     * @return mixed
+     */
+    public function carLetter(){
+        dd(SubscribeSupply::where(['status'=>0,['expire_time','<',time()]])->get());
+        $data=CarLetter::all();
+        return $this->successResponse($data);
+    }
+    //获取供货货品
+    public function goods(Request $request){
+        $type=$request->input('type',1);
+        $data=SubscribeGoods::getTypeGoods($type,['id','goods_name']);
+        return $this->successResponse($data);
+    }
     /**
      * 临时预约供货
      * @param Request $request

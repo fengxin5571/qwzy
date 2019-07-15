@@ -50,13 +50,13 @@ class AuthController extends Controller{
             $insert_array=$request->all();
             $insert_array['add_time']=time();
             if($supplier->create($insert_array)) {
-                return $this->successResponse('注册成功，请等待后台审核');
+                return $this->successResponse('注册成功，我们将在3个工作日内审核通过');
             }else{
                 throw new \Exception('注册失败');
             }
 
         }catch (\Exception $e){
-           return $this->response->error('注册失败',401);
+           return $this->response->error('注册失败',$this->forbidden_code);
         }
     }
 
@@ -65,11 +65,22 @@ class AuthController extends Controller{
      * @param Request $request
      */
     public function login(Request $request){
+        $message=[
+            'driver_name.required'=>'司机姓名不能为空',
+            'mobile.required'=>'手机号不能为空'
+        ];
+        $validator=Validator::make($request->all(),[
+            'driver_name'=>'required',
+            'mobile'=>'required'
+        ],$message);
+        if($validator->fails()){
+            return $this->response->error($validator->errors()->first(),$this->forbidden_code);
+        }
         $credentials=$request->only('driver_name','mobile');
         $supplier=Supplier::where(['driver_name'=>$credentials['driver_name'],'mobile'=>$credentials['mobile'],'status'=>1])->first();
-        if(!$supplier) return $this->response->error('登录失败，请确认账号是否正确',401);
+        if(!$supplier) return $this->response->error('登录失败，请确认账号是否正确',$this->forbidden_code);
         if(!$token=auth('api')->login($supplier)){
-            return $this->response->error('登录失败，请确认账号是否正确',401);
+            return $this->response->error('登录失败，请确认账号是否正确',$this->forbidden_code);
         }
         return $this->withResponseToken('登录成功',$token);
     }
@@ -102,7 +113,6 @@ class AuthController extends Controller{
         if(!isset($res['openid'])){
            // return $this->response->error('openid获取失败',$this->forbidden_code);
         }
-        $data=$request->input('info');
         //$data['routine_openid']=$res['openid'];
         $data['routine_openid']='orc0L0oJ8CTGLxqt6r07R3htqAAs';
         $data['nickName']=' 没心没肺 ';
@@ -112,7 +122,7 @@ class AuthController extends Controller{
             return $this->response->error($item['message'],$this->forbidden_code);
         }
         if(!$token=auth('api')->login($item['info'])){
-            return $this->response->error('登录失败，请确认账号是否正确',$this->unauth_code);
+            return $this->response->error('登录失败，请确认账号是否正确',$this->forbidden_code);
         }
         return $this->withResponseToken('登录成功',$token);
     }
@@ -145,7 +155,7 @@ class AuthController extends Controller{
         if($supinfo->update(
             ['routine_openid'=>$request->input('routine_openid'),'nickname'=>$request->input('nickName'),'headimgurl'=>$request->input('avatarUrl')])){
             if(!$token=auth('api')->login($supinfo)){
-                return $this->response->error('绑定失败，请确认账号是否正确',$this->unauth_code);
+                return $this->response->error('绑定失败，请确认账号是否正确',$this->forbidden_code);
             }
             return $this->withResponseToken('绑定成功',$token);
         }else{

@@ -23,6 +23,7 @@ class CarDiscern extends Eloquent
 	public $timestamps = false;
 
 	protected $fillable = [
-		'car_region'
+		'car_region',
+        'status'
 	];
 }

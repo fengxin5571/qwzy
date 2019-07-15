@@ -99,7 +99,7 @@ class SubscribeSupplyController extends AdminController{
         })->width(150);
         $grid->column('status','供货状态')->using([
             '0'=>'<span class="label label-info">未取卡</span>',
-            '1'=>'<span class="label label-dangero">已过期</span>',
+            '1'=>'<span class="label label-danger">已过期</span>',
             '2'=>'<span class="label label-success">已取卡</span>'
         ]);
         $grid->actions(function ($actions) {

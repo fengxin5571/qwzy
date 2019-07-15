@@ -43,6 +43,12 @@ $api->version('v1',[
     });
     //预约供货
     $api->group(['prefix'=>'subscribe'],function ($api){
+        //车牌地区识别
+        $api->get('carDiscern','SubscribeController@carDiscern');
+        //车牌字母
+        $api->get('carLetter','SubscribeController@carLetter');
+        //获取供货货品
+        $api->get('goods','SubscribeController@goods');
         //临时供货
         $api->get('temp','SubscribeController@temp');
         //供货商供货
