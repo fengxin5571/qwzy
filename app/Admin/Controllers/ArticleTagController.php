@@ -6,6 +6,7 @@
  * Time: 8:49 AM
  */
 namespace App\Admin\Controllers;
+use App\Model\ArticleCategory;
 use App\Model\ArticleTag;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -41,6 +42,7 @@ class ArticleTagController extends AdminController{
     protected function grid(){
         $grid=new Grid(new ArticleTag);
         $grid->column('id','ID')->sortable();
+        $grid->column('category.title','所属分类');
         $grid->column('tag_name','标签名称')->editable();
         $grid->actions(function ($actions) {
             $actions->disableView();
@@ -57,6 +59,7 @@ class ArticleTagController extends AdminController{
     protected function form(){
         $form=new Form(new ArticleTag);
         $form->display('id','ID');
+        $form->select('cid','所属分类')->options(ArticleCategory::pluck('title','id'))->required();
         $form->text('tag_name','标签名称')->rules(['required']);
         $form->tools(function (Form\Tools $tools) {
             // 去掉`查看`按钮

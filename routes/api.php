@@ -38,7 +38,10 @@ $api->version('v1',[
     });
     //企业通知
     $api->group(['prefix'=>'article'],function ($api){
+        //文章分类
         $api->get('/category','ArticleController@category');
+        //文章标签
+        $api->get('/tag','ArticleController@tag');
     });
     //预约供货
     $api->group(['prefix'=>'subscribe'],function ($api){

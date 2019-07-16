@@ -23,9 +23,14 @@ class ArticleTag extends Eloquent
 	public $timestamps = false;
 
 	protected $fillable = [
-		'tag_name'
+		'tag_name',
+        'cid'
 	];
 	public function article(){
 	    //return $this->belongsToMany(Article::class)
+    }
+    //标签所属分类
+    public function category(){
+	    return $this->belongsTo(ArticleCategory::class,'cid','id');
     }
 }
