@@ -21,7 +21,7 @@ class SubscribeController extends Controller{
      * @param Request $request
      */
     public function carDiscern(Request $request){
-        $data=CarDiscern::where('status',1)->get(['id','car_region']);
+        $data=CarDiscern::where('status',1)->orderBy('sort')->get(['id','car_region']);
         return $this->successResponse($data);
     }
 
