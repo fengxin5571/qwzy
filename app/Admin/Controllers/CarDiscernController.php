@@ -44,10 +44,12 @@ class CarDiscernController extends AdminController{
     }
     protected function grid(){
         $grid=new Grid(new CarDiscern);
+        $grid->column('id','ID');
+        $grid->model()->orderBy('sort','asc');
+        $grid->sort('状态')->sortableColumn(CarDiscern::class);
         $grid->actions(function ($actions) {
             $actions->disableView();
         });
-        $grid->column('id','ID')->sortable();
         $grid->column('car_region','地区代号')->display(function ($car_region){
             return "<span class='label label-info'>{$car_region}</span>";
         });

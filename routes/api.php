@@ -35,7 +35,6 @@ $api->version('v1',[
         $api->group(['middleware'=>'authToken'],function ($api){
 
         });
-        //$api->get();
     });
     //企业通知
     $api->group(['prefix'=>'article'],function ($api){

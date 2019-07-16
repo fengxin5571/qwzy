@@ -368,6 +368,10 @@ return [
                 'initialFrameHeight' => 400, // 例如初始化高度
             ],
             // 'field_type' => '自定义名字'
+        ],
+        'sortableColumn' => [
+            // set to false if you want to disable this extension
+            'enable' => true,
         ]
     ],
 ];

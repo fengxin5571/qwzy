@@ -81,7 +81,7 @@ class SubscribeController extends Controller{
                 'expire_time'=>time()+config('expire_time')*60,
                 'sub_code'   =>$code,
             ];
-            if(!SubscribeSupply::create($data)){
+            if(!$supply=SubscribeSupply::create($data)){
                 throw new \Exception('预约失败');
             }
         }catch (\Exception $e){

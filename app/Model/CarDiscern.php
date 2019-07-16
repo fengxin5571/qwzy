@@ -7,6 +7,8 @@
 
 namespace App\Model;
 
+use James\Sortable\Sortable;
+use James\Sortable\SortableTrait;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
@@ -17,13 +19,20 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class CarDiscern extends Eloquent
+class CarDiscern extends Eloquent implements Sortable
 {
+    use SortableTrait;
+    public $sortable = [
+        'sort_field' => 'sort',       // 排序字段
+        'sort_when_creating' => true,   // 新增是否自增，默认自增
+    ];
 	protected $table = 'car_discern';
 	public $timestamps = false;
 
 	protected $fillable = [
 		'car_region',
-        'status'
+        'status',
+        'sort'
 	];
+
 }
