@@ -131,6 +131,7 @@ class SupplierController extends AdminController {
                    if($supplier->headimgurl){
                        $show->field('headimgurl','微信头像')->image();
                    }
+                   $show->field('card_id','身份证号');
                    if(config('register_pay')){
                        $show->field('pay_status','付费状态')->using(['0'=>'未支付','1'=>'已支付']);
                        if($supplier->pay_status){
@@ -178,6 +179,7 @@ class SupplierController extends AdminController {
                 return '暂未绑定微信';
             }
         });
+        $grid->column('headimgurl','微信头像')->image();
         $grid->column('add_time','注册时间');
         if(config('register_pay')){//是否开启注册支付
             $grid->column('expire_time','付费到期时间')->display(function ($expire_time){
@@ -226,6 +228,7 @@ class SupplierController extends AdminController {
         $form->mobile('mobile', '手机号')->rules('required|is_mobile');
         $form->text('bank_address', '银行卡开户行')->rules('required');
         $form->text('bank_code', '银行卡号')->rules('required');
+        $form->text('card_id','身份证号');
         if(config('register_pay')){
             //$form->datetime('expire_time','付费到期时间')->setMinDate(date('Y/m/d',time()+24*3600))->format('YYYY-MM-DD');
 

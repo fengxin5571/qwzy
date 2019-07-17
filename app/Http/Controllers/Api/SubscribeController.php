@@ -51,6 +51,7 @@ class SubscribeController extends Controller{
             'mobile.required'=>'手机号不能为空',
             'mobile.unique'=>'此用户已经预约',
             'mobile.is_mobile'=>'手机格式不正确',
+            'card_id.required'=>'身份证号不能为空',
             'goods_name.required'=>'请至少选择一个供货货品',
         ];
         $validator=Validator::make($request->all(),[
@@ -61,7 +62,7 @@ class SubscribeController extends Controller{
                 $query->where(['driver_name'=>$request->input('driver_name'),'sub_type'=>1,'status'=>0]);
             })
             ],
-
+            'card_id'=>'required',
         ],$messages);
         if($validator->fails()){
             return $this->response->error($validator->errors()->first(),$this->forbidden_code);

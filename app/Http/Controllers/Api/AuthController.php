@@ -16,6 +16,15 @@ use Illuminate\Validation\Rule;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller{
+    protected $app;
+    public function __construct()
+    {
+        $config=[
+            'app_id' => config('appid'),
+            'secret' => config('appsecret'),
+        ];
+        $this->app=Factory::miniProgram($config);
+    }
 
     /**
      * 供应商注册
@@ -31,6 +40,8 @@ class AuthController extends Controller{
             'driver_name.required'=>'请输入姓名',
             'bank_address.required'=>'请输入银行卡开户行',
             'bank_code.required'=>'请输入银行卡号',
+            'card_id.required'=>'请输入身份证号',
+            'card_id.is_card'=>'请输入正确的身份证号'
         );
         $validator=Validator::make($request->all(),[
             'shipper_name'=>'required',
@@ -38,13 +49,21 @@ class AuthController extends Controller{
                 Rule::unique('supplier')->where(function($query) use ($request){
                     $query->where('driver_name',$request->input('driver_name'));
                 })
-                ],
-            'driver_name'=>'required',
+            ],
+            'driver_name'=>['required',function($attribute, $value, $fail) use($request){
+//                    $supplier=Supplier::where(['driver_name'=>$value,'mobile'=>$request->input('mobile')])->first();
+//                    if($supplier){
+//                        $fail('此用户已经注册');
+//                        return;
+//                    }
+                }
+            ],
             'bank_address'=>'required',
-            'bank_code'=>'required'
+            'bank_code'=>'required',
+            'card_id'=>'required|is_card'
         ],$message);
         if($validator->fails()){
-            return $this->response->error($validator->errors()->first(),'401');
+            return $this->response->error($validator->errors()->first(),$this->forbidden_code);
         }
         try{
             $insert_array=$request->all();
@@ -82,7 +101,8 @@ class AuthController extends Controller{
         if(!$token=auth('api')->login($supplier)){
             return $this->response->error('登录失败，请确认账号是否正确',$this->forbidden_code);
         }
-        return $this->withResponseToken('登录成功',$token);
+        $data['token']=$token;
+        return $this->successResponse($data,'登录成功');
     }
 
     /**
@@ -104,12 +124,7 @@ class AuthController extends Controller{
         if($validator->fails()){
             return $this->response->error($validator->errors()->first(),$this->forbidden_code);
         }
-        $config=[
-            'app_id' => config('appid'),
-            'secret' => config('appsecret'),
-        ];
-        $app=Factory::miniProgram($config);
-        $res=$app->auth->session($request->input('code'));
+        $res=$this->app->auth->session($request->input('code'));
         if(!isset($res['openid'])){
            // return $this->response->error('openid获取失败',$this->forbidden_code);
         }
@@ -124,7 +139,8 @@ class AuthController extends Controller{
         if(!$token=auth('api')->login($item['info'])){
             return $this->response->error('登录失败，请确认账号是否正确',$this->forbidden_code);
         }
-        return $this->withResponseToken('登录成功',$token);
+        $result['token']=$token;
+        return $this->successResponse($result,'登录成功');
     }
     /**
      * 微信快捷绑定
@@ -157,11 +173,29 @@ class AuthController extends Controller{
             if(!$token=auth('api')->login($supinfo)){
                 return $this->response->error('绑定失败，请确认账号是否正确',$this->forbidden_code);
             }
-            return $this->withResponseToken('绑定成功',$token);
+            $data['token']=$token;
+            return $this->successResponse($data,'绑定成功');
         }else{
             return $this->response->error('绑定失败',$this->forbidden_code);
         }
 
+    }
+    /**
+     * 获取openid
+     * @param Request $request
+     * @return mixed
+     */
+    public function getOpenId(Request $request){
+        $code=$request->input('code');
+        if(empty($code)){
+            return $this->response->error('code不能为空',$this->forbidden_code);
+        }
+        $res=$this->app->auth->session($code);
+        if(!isset($res['openid'])){
+             return $this->response->error('openid获取失败',$this->forbidden_code);
+        }
+        $data['routine_openid']=$res['openid'];
+        return $this->successResponse($data);
     }
     /**
      * 供应商配置
@@ -171,11 +205,5 @@ class AuthController extends Controller{
         $data['register_pay']=config('register_pay');
         return $this->successResponse($data);
     }
-    public function test(){
-        $s=auth('api')->user();
-        if($s){
-            return $this->response->array($s);
-        }
-            return $this->response->array(['1']);
-    }
+
 }

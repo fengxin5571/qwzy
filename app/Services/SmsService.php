@@ -52,7 +52,7 @@ class SmsService
             ],
         ];
         if (env('APP_DEBUG')) {//开发环境不真发送
-            $code = 1234;
+           // $code = 1234;
         } else {
             try{
                 $easySms = new EasySms($config);

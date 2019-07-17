@@ -49,6 +49,7 @@ class SubscribeSupplyController extends AdminController{
                   $show->sub_type('供货类型：')->as(function($sub_type){
                       return $sub_type==1?'临时供货':'供货商供货';
                    });
+                  $show->card_id('身份证号：');
                   if($info->sub_type==2){
                       $show->bank_address('银行卡开户行：');
                       $show->bank_code('银行卡卡号：');
@@ -103,8 +104,11 @@ class SubscribeSupplyController extends AdminController{
             '2'=>'<span class="label label-success">已取卡</span>'
         ]);
         $grid->actions(function ($actions) {
+            if($actions->row->sub_type==1){
+                $actions->disableEdit();
+            }
             //$actions->disableView();
-            //$actions->disableEdit();
+
         });
         $grid->filter(function($filter){
             // 去掉默认的id过滤器

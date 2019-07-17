@@ -29,6 +29,8 @@ $api->version('v1',[
         $api->get('test','AuthController@test');
         //供应商微信快捷登录
         $api->post('miniLogin','AuthController@routeLogin');
+        //获取openid
+        $api->get('/weixin/openid','AuthController@getOpenId');
         //供应商微信绑定
         $api->post('/weixin/bind','AuthController@bind');
 
