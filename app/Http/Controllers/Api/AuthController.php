@@ -164,11 +164,7 @@ class AuthController extends Controller{
         }
         if($supinfo->update(
             ['routine_openid'=>$request->input('routine_openid'),'nickname'=>$request->input('nickName'),'headimgurl'=>$request->input('avatarUrl')])){
-            if(!$token=auth('api')->login($supinfo)){
-                return $this->response->error('绑定失败，请确认账号是否正确',$this->forbidden_code);
-            }
-            $data['token']=$token;
-            return $this->successResponse($data,'绑定成功');
+            return $this->successResponse('','绑定成功');
         }else{
             return $this->response->error('绑定失败',$this->forbidden_code);
         }

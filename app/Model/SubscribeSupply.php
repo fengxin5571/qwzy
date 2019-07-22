@@ -52,7 +52,8 @@ class SubscribeSupply extends Eloquent
         'bank_address',
         'sub_images',
         'bank_code',
-		'status'
+		'status',
+        'card_id'
 	];
     public function setSubImagesAttribute($image)
     {

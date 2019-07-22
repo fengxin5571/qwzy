@@ -53,6 +53,7 @@ class SubscribeController extends Controller{
             'mobile.unique'=>'此用户已经预约',
             'mobile.is_mobile'=>'手机格式不正确',
             'card_id.required'=>'身份证号不能为空',
+            'card_id.is_card'=>'身份证号格式不正确',
             'goods_name.required'=>'请至少选择一个供货货品',
         ];
         $validator=Validator::make($request->all(),[
@@ -63,7 +64,7 @@ class SubscribeController extends Controller{
                 $query->where(['driver_name'=>$request->input('driver_name'),'sub_type'=>1,'status'=>0]);
             })
             ],
-            'card_id'=>'required',
+            'card_id'=>'required|is_card',
         ],$messages);
         if($validator->fails()){
             return $this->response->error($validator->errors()->first(),$this->forbidden_code);
@@ -82,6 +83,7 @@ class SubscribeController extends Controller{
                 'sub_type'   =>1,
                 'expire_time'=>time()+config('expire_time')*60,
                 'sub_code'   =>$code,
+                'card_id'    =>$request->input('card_id'),
             ];
             if(!$supply=SubscribeSupply::create($data)){
                 throw new \Exception('预约失败');
