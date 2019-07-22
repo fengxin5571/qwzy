@@ -22,7 +22,7 @@ class SubscribeController extends Controller{
      * @param Request $request
      */
     public function carDiscern(Request $request){
-        $data=CarDiscern::where('status',1)->orderBy('sort')->get(['id','car_region']);
+        $data=CarDiscern::where('status',1)->orderBy('sort')->get(['car_region']);
         return $this->successResponse($data);
     }
 
@@ -31,8 +31,7 @@ class SubscribeController extends Controller{
      * @return mixed
      */
     public function carLetter(){
-        dd(SubscribeSupply::where(['status'=>0,['expire_time','<',time()]])->get());
-        $data=CarLetter::all();
+        $data=CarLetter::all(['car_letter']);
         return $this->successResponse($data);
     }
     //获取供货货品
