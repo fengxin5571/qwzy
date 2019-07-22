@@ -69,7 +69,7 @@ class AuthController extends Controller{
             $insert_array=$request->all();
             $insert_array['add_time']=time();
             if($supplier->create($insert_array)) {
-                return $this->successResponse('注册成功，我们将在3个工作日内审核通过');
+                return $this->successResponse('','注册成功，我们将在3个工作日内审核通过');
             }else{
                 throw new \Exception('注册失败');
             }
@@ -112,13 +112,9 @@ class AuthController extends Controller{
      */
     public function routeLogin(Request $request,Supplier $supplier){
         $message=[
-            'nickName.required'=>'昵称不能为空',
-            'avatarUrl.required'=>'头像补不能为空',
             'code.required'=>'code不能为空',
         ];
         $validator=Validator::make($request->all(),[
-            'nickName'=>'required',
-            'avatarUrl'=>'required',
             'code'=>'required'
         ],$message);
         if($validator->fails()){
@@ -130,8 +126,6 @@ class AuthController extends Controller{
         }
         //$data['routine_openid']=$res['openid'];
         $data['routine_openid']='orc0L0oJ8CTGLxqt6r07R3htqAAs';
-        $data['nickName']=' 没心没肺 ';
-        $data['avatarUrl']='https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eot69CjpM1oaJ4S1F2XXobiccibpZqricRiayFWfKGJAEqrupBDMFgarS0oz3gz64vCaZP9hXOmuuUicBQ/132';
         $item=$supplier->routineOauth($data);
         if($item['error']||empty($item['info'])){
             return $this->response->error($item['message'],$this->forbidden_code);
