@@ -122,10 +122,10 @@ class AuthController extends Controller{
         }
         $res=$this->app->auth->session($request->input('code'));
         if(!isset($res['openid'])){
-           // return $this->response->error('openid获取失败',$this->forbidden_code);
+            return $this->response->error('openid获取失败',$this->forbidden_code);
         }
-        //$data['routine_openid']=$res['openid'];
-        $data['routine_openid']='orc0L0oJ8CTGLxqt6r07R3htqAAs';
+        $data['routine_openid']=$res['openid'];
+//        $data['routine_openid']='orc0L0oJ8CTGLxqt6r07R3htqAAs';
         $item=$supplier->routineOauth($data);
         if($item['error']||empty($item['info'])){
             return $this->response->error($item['message'],$this->forbidden_code);
