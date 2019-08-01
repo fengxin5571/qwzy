@@ -37,30 +37,18 @@ class AuthController extends Controller{
             'mobile.required'=>'手机号不能为空',
             'mobile.is_mobile'=>'请输入正确的手机号码',
             'mobile.unique'=>'此用户已经注册',
-            'driver_name.required'=>'请输入姓名',
             'bank_address.required'=>'请输入银行卡开户行',
             'bank_code.required'=>'请输入银行卡号',
-            'card_id.required'=>'请输入身份证号',
-            'card_id.is_card'=>'请输入正确的身份证号'
         );
         $validator=Validator::make($request->all(),[
             'shipper_name'=>'required',
             'mobile'=>['required','is_mobile',
                 Rule::unique('supplier')->where(function($query) use ($request){
-                    $query->where('driver_name',$request->input('driver_name'));
+                    $query->where(['shipper_name'=>$request->input('shipper_name')]);
                 })
-            ],
-            'driver_name'=>['required',function($attribute, $value, $fail) use($request){
-//                    $supplier=Supplier::where(['driver_name'=>$value,'mobile'=>$request->input('mobile')])->first();
-//                    if($supplier){
-//                        $fail('此用户已经注册');
-//                        return;
-//                    }
-                }
             ],
             'bank_address'=>'required',
             'bank_code'=>'required',
-            'card_id'=>'required|is_card'
         ],$message);
         if($validator->fails()){
             return $this->response->error($validator->errors()->first(),$this->forbidden_code);
@@ -85,18 +73,18 @@ class AuthController extends Controller{
      */
     public function login(Request $request){
         $message=[
-            'driver_name.required'=>'司机姓名不能为空',
+            'shipper_name.required'=>'货主姓名不能为空',
             'mobile.required'=>'手机号不能为空'
         ];
         $validator=Validator::make($request->all(),[
-            'driver_name'=>'required',
+            'shipper_name'=>'required',
             'mobile'=>'required'
         ],$message);
         if($validator->fails()){
             return $this->response->error($validator->errors()->first(),$this->forbidden_code);
         }
-        $credentials=$request->only('driver_name','mobile');
-        $supplier=Supplier::where(['driver_name'=>$credentials['driver_name'],'mobile'=>$credentials['mobile'],'status'=>1])->first();
+        $credentials=$request->only('shipper_name','mobile');
+        $supplier=Supplier::where(['shipper_name'=>$credentials['shipper_name'],'mobile'=>$credentials['mobile'],'status'=>1])->first();
         if(!$supplier) return $this->response->error('登录失败，请确认账号是否正确',$this->forbidden_code);
         if(!$token=auth('api')->login($supplier)){
             return $this->response->error('登录失败，请确认账号是否正确',$this->forbidden_code);

@@ -49,7 +49,6 @@ class Supplier extends Authenticatable implements JWTSubject
 	protected $fillable = [
 		'mobile',
 		'shipper_name',
-		'driver_name',
 		'bank_address',
 		'bank_code',
 		'add_time',

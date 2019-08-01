@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eafddf8c912ef0d7c973cb1149af5e4d",
+    "content-hash": "c61aac2c3678c2d52b7e59050f1a9636",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1067,16 +1067,16 @@
         },
         {
             "name": "encore/laravel-admin",
-            "version": "v1.7.1",
+            "version": "v1.7.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/z-song/laravel-admin.git",
-                "reference": "c7a24ef32f0e384a0e54940ce4bc7e156ff34501"
+                "reference": "1696ae76863fc7b60ed2c717caef547dc39c30d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/z-song/laravel-admin/zipball/c7a24ef32f0e384a0e54940ce4bc7e156ff34501",
-                "reference": "c7a24ef32f0e384a0e54940ce4bc7e156ff34501",
+                "url": "https://api.github.com/repos/z-song/laravel-admin/zipball/1696ae76863fc7b60ed2c717caef547dc39c30d3",
+                "reference": "1696ae76863fc7b60ed2c717caef547dc39c30d3",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1140,7 +1140,7 @@
                 "grid",
                 "laravel"
             ],
-            "time": "2019-06-10T05:48:25+00:00"
+            "time": "2019-07-24T03:27:03+00:00"
         },
         {
             "name": "erusev/parsedown",

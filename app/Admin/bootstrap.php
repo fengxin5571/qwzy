@@ -21,5 +21,29 @@
 Encore\Admin\Form::forget(['map', 'editor']);
 Admin::navbar(function (\Encore\Admin\Widgets\Navbar $navbar) {
     $navbar->right(new \App\Admin\Extensions\Nav\Links());
-
+    //表单初始化
+    \Encore\Admin\Form::init(function(\Encore\Admin\Form $form){
+        $form->disableEditingCheck();
+        $form->disableCreatingCheck();
+        $form->disableViewCheck();
+        $form->tools(function (\Encore\Admin\Form\Tools $tools){
+            $tools->disableDelete();
+            $tools->disableView();
+            $tools->disableList();
+        });
+    });
+    //表格初始化
+    Encore\Admin\Grid::init(function (Encore\Admin\Grid $grid){
+        $grid->enableHotKeys();
+        $grid->filter(function($filter){
+            // 去掉默认的id过滤器
+            $filter->disableIdFilter();
+        });
+        $grid->actions(function ($actions) {
+            $actions->disableView();
+        });
+        $grid->disableExport();
+        $grid->disableColumnSelector();
+        $grid->paginate(20);
+    });
 });

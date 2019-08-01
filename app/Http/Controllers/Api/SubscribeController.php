@@ -90,7 +90,7 @@ class SubscribeController extends Controller{
         }catch (\Exception $e){
             return $this->response->error($e->getMessage(),$this->forbidden_code);
         }
-        return $this->successResponse('预约成功,请在'.config('expire_time').'分钟内取卡');
+        return $this->successResponse('','预约成功,请在'.config('expire_time').'分钟内取卡');
     }
 
     /**

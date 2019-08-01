@@ -13,7 +13,7 @@
         "caouecs/laravel-lang": "~3.0",
         "codingyu/ueditor": "^2.0",
         "dingo/api": "^2.0.0-alpha2",
-        "encore/laravel-admin": "^1.6",
+        "encore/laravel-admin": "^1.7",
         "fideloper/proxy": "^4.0",
         "james.xue/laravel-admin-sortable": "^1.0",
         "james.xue/login-captcha": "^1.8",

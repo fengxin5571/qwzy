@@ -121,7 +121,6 @@ class SupplierController extends AdminController {
                        ->title('供货商基本信息');
                    $show->id('ID');
                    $show->field('shipper_name','货主名称');
-                   $show->field('driver_name','司机姓名');
                    $show->field('mobile','手机号');
                    $show->field('bank_address','银行卡开户行');
                    $show->field('bank_code','银行卡号');
@@ -131,7 +130,6 @@ class SupplierController extends AdminController {
                    if($supplier->headimgurl){
                        $show->field('headimgurl','微信头像')->image();
                    }
-                   $show->field('card_id','身份证号');
                    if(config('register_pay')){
                        $show->field('pay_status','付费状态')->using(['0'=>'未支付','1'=>'已支付']);
                        if($supplier->pay_status){
@@ -170,7 +168,6 @@ class SupplierController extends AdminController {
         $grid=new Grid(new Supplier);
         $grid->id('ID')->width(50)->sortable();
         $grid->column('shipper_name','货主名称');
-        $grid->column('driver_name','司机姓名');
         $grid->column('mobile','手机号')->width(80);
         $grid->column('nickname','微信昵称')->display(function ($nickname){
             if($nickname){
@@ -201,12 +198,16 @@ class SupplierController extends AdminController {
             $filter->disableIdFilter();
             $filter->scope('status0', '未审核')->where('status', 0);
             $filter->scope('status1', '正常')->where('status', 1);
-            $filter->scope('status2', '不可用')->where('status', 1);
+            $filter->scope('status2', '不可用')->where('status', 2);
             // 在这里添加字段过滤器
             $filter->like('shipper_name', '货主名称');
             $filter->like('mobile','手机号');
-            $filter->like('driver_name','司机姓名');
-
+            $filter->equal('status','状态')->radio([
+                ''   => ' 所有',
+                0    => ' 未审核',
+                1    => ' 正常',
+                2    => ' 不可用',
+            ]);
         });
         $grid->disableCreateButton();
         $grid->disableColumnSelector();
@@ -224,11 +225,9 @@ class SupplierController extends AdminController {
         $form=new Form(new Supplier);
         $form->display('id', 'ID');
         $form->text('shipper_name', '货主名称')->rules('required');
-        $form->text('driver_name', '司机姓名')->rules('required');
         $form->mobile('mobile', '手机号')->rules('required|is_mobile');
         $form->text('bank_address', '银行卡开户行')->rules('required');
         $form->text('bank_code', '银行卡号')->rules('required');
-        $form->text('card_id','身份证号');
         if(config('register_pay')){
             //$form->datetime('expire_time','付费到期时间')->setMinDate(date('Y/m/d',time()+24*3600))->format('YYYY-MM-DD');
 

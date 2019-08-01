@@ -84,7 +84,6 @@ return [
         'path'   => 'HTTP路径',
     ],
     'all_methods_if_empty'  => '为空默认为所有方法',
-    'grid_items_selected'=>'已选择{n}项',
     'all'                   => '全部',
     'current_page'          => '当前页',
     'selected_rows'         => '选择的行',
@@ -99,6 +98,9 @@ return [
         'filter_clear'       => '显示全部',
         'filter_placeholder' => '过滤',
     ],
-    'menu_titles' => [
-    ],
+    'grid_items_selected'    => '已选择 {n} 项',
+    'menu_titles'            => [],
+    'prev'                   => '上一步',
+    'next'                   => '下一步',
+    'quick_create'           => '快速创建',
 ];

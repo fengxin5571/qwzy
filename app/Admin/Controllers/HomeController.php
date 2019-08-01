@@ -18,8 +18,8 @@ class HomeController extends Controller
         return $content
             ->header('控制台')
             ->row(function (Row $row) {
-                $sub_temp_count=SubscribeSupply::where('sub_type',1)->whereBetween('sub_time',[strtotime(date("Y-m-d"),time()),strtotime(date("Y-m-d"),time())+60*60*24])->count();
-                $sub_sup_count=SubscribeSupply::where('sub_type',2)->whereBetween('sub_time',[strtotime(date("Y-m-d"),time()),strtotime(date("Y-m-d"),time())+60*60*24])->count();
+                $sub_temp_count=SubscribeSupply::where(['sub_type'=>1,'status'=>2])->whereBetween('sub_time',[strtotime(date("Y-m-d"),time()),strtotime(date("Y-m-d"),time())+60*60*24])->count();
+                $sub_sup_count=SubscribeSupply::where(['sub_type'=>2,'status'=>2])->whereBetween('sub_time',[strtotime(date("Y-m-d"),time()),strtotime(date("Y-m-d"),time())+60*60*24])->count();
                 $sup_count=Supplier::where('status',0)->count();
                 $sub_temp=new InfoBox('今日临时预约供货总数', 'calendar', 'aqua', '/admin/subscribe/list', $sub_temp_count);
                 $sub_supplier=new InfoBox('今日供货商预约供货总数', 'calendar', 'green', '/admin/subscribe/list', $sub_sup_count);
