@@ -9,6 +9,7 @@ namespace App\Http\Controllers\Api;
 
 
 use App\Http\Controllers\Controller;
+use App\Jobs\AutoHandleBlackList;
 use App\Model\ArticleCategory;
 use App\Model\ArticleTag;
 use Illuminate\Http\Request;

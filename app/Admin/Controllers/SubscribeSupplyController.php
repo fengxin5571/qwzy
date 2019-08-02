@@ -7,6 +7,7 @@
  */
 namespace App\Admin\Controllers;
 use App\Admin\Filters\TimestampBetween;
+use App\Jobs\AutoHandleBlackList;
 use App\Model\SubscribeSupply;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Facades\Admin;
@@ -61,7 +62,7 @@ class SubscribeSupplyController extends AdminController{
                   $show->expire_time('验证码过期时间：')->as(function($expire_time){
                        return date('Y-m-d H:i:s',$expire_time);
                   });
-                  $show->status('供货状态：')->using(['0'=>'未取卡','1'=>'已过期','2'=>'已取卡','3'=>'已过磅']);
+                  $show->status('供货状态：')->using(['0'=>'未取卡','1'=>'已过期','2'=>'已取卡','3'=>'已过磅','4'=>'已超时']);
                   $show->panel()
                        ->style('info')
                        ->title('供货记录详细信息')
@@ -132,7 +133,8 @@ class SubscribeSupplyController extends AdminController{
                     0   => '未取卡',
                     1   => '已过期',
                     2   => '已取卡',
-                    3   => '已过磅'
+                    3   => '已过磅',
+                    4   =>'已超时'
                 ]);
             });
 
