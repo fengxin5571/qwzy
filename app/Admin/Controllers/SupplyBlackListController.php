@@ -8,6 +8,7 @@
 namespace App\Admin\Controllers;
 use App\Model\SupplyBlacklist;
 use Encore\Admin\Controllers\AdminController;
+use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 
@@ -40,6 +41,15 @@ class SupplyBlackListController extends  AdminController{
             $filter->like('mobile','手机号')->placeholder('请输入司机手机号查询');
 
         });
+        $grid->actions(function ($actions) {
+            $actions->disableView();
+            $actions->disableEdit();
+
+        });
         return $grid;
+    }
+    protected function form(){
+        $form=new Form(new SupplyBlacklist());
+        return $form;
     }
 }

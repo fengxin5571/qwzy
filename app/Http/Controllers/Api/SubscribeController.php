@@ -12,6 +12,7 @@ use App\Model\CarLetter;
 use App\Model\SubscribeGoods;
 use App\Model\SubscribeSupply;
 use App\Model\Supplier;
+use App\Model\SupplyBlacklist;
 use App\Services\SmsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -61,9 +62,19 @@ class SubscribeController extends Controller{
             'goods_name'=>'required',
             'mobile'     =>['required','is_mobile',Rule::unique('subscribe_supply')->where(function($query)use($request){
                 $query->where(['driver_name'=>$request->input('driver_name'),'sub_type'=>1,'status'=>0]);
+            },function($attribute, $value, $fail)use($request){
+                if(SupplyBlacklist::where('mobile',$request->input('mobile'))->count()){
+                    $fail('当前用户涉嫌超时过磅，已在黑名单中，请联系管理员');
+                    return;
+                }
             })
             ],
-            'card_id'=>'required|is_card',
+            'card_id'=>['required','is_card',function($attribute, $value, $fail)use($request){
+                if(SupplyBlacklist::where('card_id',$request->input('card_id'))->count()){
+                    $fail('当前用户涉嫌超时过磅，已在黑名单中，请联系管理员');
+                    return;
+                }
+            }],
         ],$messages);
         if($validator->fails()){
             return $this->response->error($validator->errors()->first(),$this->forbidden_code);

@@ -62,6 +62,11 @@ class SubscribeSupplyController extends AdminController{
                   $show->expire_time('验证码过期时间：')->as(function($expire_time){
                        return date('Y-m-d H:i:s',$expire_time);
                   });
+                  if($info->status==2){
+                      $show->take_time('取卡时间：')->as(function($take_time){
+                          return date('Y-m-d H:i:s',$take_time);
+                      });
+                  }
                   $show->status('供货状态：')->using(['0'=>'未取卡','1'=>'已过期','2'=>'已取卡','3'=>'已过磅','4'=>'已超时']);
                   $show->panel()
                        ->style('info')
@@ -102,8 +107,9 @@ class SubscribeSupplyController extends AdminController{
             '0'=>'<span class="label label-info">未取卡</span>',
             '1'=>'<span class="label label-danger">已过期</span>',
             '2'=>'<span class="label label-success">已取卡</span>',
-            '3'=>'<span class="label label-success">已过磅</span>'
-        ]);
+            '3'=>'<span class="label label-success">已过磅</span>',
+            '4'=>'<span class="label label-danger">已超时</span>'
+        ])->help('未取卡：预约成功没有取卡；已过期：超过取卡过期时间；已取卡：已成功取卡；已超时：取卡后超超过过磅时间');
         $grid->actions(function ($actions) {
             if($actions->row->sub_type==1){
                 $actions->disableEdit();
