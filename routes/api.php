@@ -46,6 +46,10 @@ $api->version('v1',[
         $api->get('/category','ArticleController@category');
         //文章标签
         $api->get('/tag','ArticleController@tag');
+        //热门搜索
+        $api->get('/hot_search','ArticleController@hot_search');
+        //文章列表
+        $api->get('/list','ArticleController@list');
     });
     //预约供货
     $api->group(['prefix'=>'subscribe'],function ($api){

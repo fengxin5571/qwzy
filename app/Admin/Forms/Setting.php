@@ -25,7 +25,9 @@ class Setting extends Form
     public function handle(Request $request)
     {
         //dump($request->all());
+        $hot_search=$request->get('hot_search')?:'';
         ConfigModel::where('name','register_pay')->update(['value'=>$request->get('register_pay')]);
+        ConfigModel::where('name','hot_search')->update(['value'=>$request->get('hot_search')]);
         admin_success('配置成功');
 
         return back();
@@ -37,7 +39,7 @@ class Setting extends Form
     public function form()
     {
        $this->radio('register_pay','注册付费:')->options(['0'=>'关闭','1'=>'打开']);
-
+       $this->text('hot_search','企业通知热门搜索')->help('多个词请用,号分割');
     }
 
     /**
@@ -49,6 +51,7 @@ class Setting extends Form
     {
         return [
             'register_pay'       => ConfigModel::where('name','register_pay')->value('value'),
+            'hot_search'         => ConfigModel::where('name','hot_search')->value('value'),
         ];
     }
 }

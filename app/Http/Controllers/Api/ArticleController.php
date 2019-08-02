@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\AutoHandleBlackList;
+use App\Model\Article;
 use App\Model\ArticleCategory;
 use App\Model\ArticleTag;
 use Illuminate\Http\Request;
@@ -44,6 +45,20 @@ class ArticleController extends Controller {
             return $this->response->error($validator->errors()->first(),$this->forbidden_code);
         }
         $data=ArticleTag::where('cid',$request->input('cid'))->get(['id','tag_name']);
+        return $this->successResponse($data);
+    }
+    /**
+     * 文章热门搜索
+     * @return mixed
+     */
+    public function hot_search(){
+        $hot_search=config('hot_search');
+        $hot_search=explode(',',$hot_search);
+        return $this->successResponse($hot_search);
+    }
+    public function list(Request $request,Article $article)
+    {
+        $data=$article->getList($request);
         return $this->successResponse($data);
     }
 }

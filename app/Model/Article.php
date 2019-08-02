@@ -54,4 +54,36 @@ class Article extends Eloquent
     public function tags(){
 	    return $this->belongsToMany(ArticleTag::class,'article_tag_relation','article_id','tag_id');
     }
+    public function getList($request){
+	    $article=$this;
+        $where = [];
+        if($request->input('title')){
+            $where[]=array('title','like',"%{$request->input('title')}%");
+        }
+        if($request->input('c_id')){
+            $where['c_id']=$request->input('c_id');
+        }
+        if($request->input('time')){
+            if($request->input('time')=='year'){
+                $start=strtotime(date("Y",time())."-1"."-1");
+                $end=strtotime(date("Y",time())."-12"."-31");
+            }elseif ($request->input('time')=='month'){
+                $start=strtotime(date('Y')."-".date('m')."-1");
+                $end=strtotime(date('Y')."-".date('m')."-".date('t'));
+            }elseif ($request->input('time')=='today'){
+                $start=strtotime(date("Y-m-d"),time());
+                $end=strtotime(date("Y-m-d"),time())+60*60*24;
+            }
+            $where[]=['add_time','>=',$start];
+            $where[]=['add_time','<=',$end];
+        }
+        $data['list'] = $article->Onlie()->where($where)->whereHas('tags',function($query) use($request){
+            if($request->input('tag_id')){
+                $query->where('tag_id',$request->input('tag_id'));
+            }
+
+        })->forPage($request->input('page',1),$request->input('limit',10))->get();
+        $data['count']=$data['list']->count();
+        return $data;
+    }
 }
