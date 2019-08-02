@@ -108,6 +108,8 @@ Route::group([
         $router->put('list/{id}','SubscribeSupplyController@update');
         //删除供货记录
         $router->delete('/list/{id}','SubscribeSupplyController@destroy');
+        //预约黑名单
+        $router->get('/black/list','SupplyBlackListController@index');
     });
     //系统设置
     $router->get('settings','FormController@setting');

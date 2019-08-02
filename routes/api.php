@@ -31,10 +31,12 @@ $api->version('v1',[
         $api->post('miniLogin','AuthController@routeLogin');
         //获取openid
         $api->get('/weixin/openid','AuthController@getOpenId');
-        //供应商微信绑定
-        $api->post('/weixin/bind','AuthController@bind');
 
         $api->group(['middleware'=>'authToken'],function ($api){
+            //个人中心
+            $api->get('my','SupplierController@my');
+            //供应商微信绑定
+            $api->post('/weixin/bind','AuthController@bind');
 
         });
     });

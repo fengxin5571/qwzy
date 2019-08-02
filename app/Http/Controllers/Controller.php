@@ -16,6 +16,11 @@ class Controller extends BaseController
     protected $forbidden_code        = 403; //请求无效，服务器拒绝执行（该状态码的错误信息需要提示给用户）
     protected $invalid_code          = 422; //请求信息存在语法错误（该状态码的错误信息需要提示给用户）
     protected $servererr_code        = 500; //服务器内部错误
+    protected $user                  = '';
+    public function __construct()
+    {
+        $this->user=auth('api')->user();
+    }
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests,Helpers;
 //    public function successResponse($message){
 //        return $this->response->array([

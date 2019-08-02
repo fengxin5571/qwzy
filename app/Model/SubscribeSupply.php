@@ -50,7 +50,6 @@ class SubscribeSupply extends Eloquent
 		'goods_name',
 		'sub_code',
         'bank_address',
-        'sub_images',
         'bank_code',
 		'status',
         'card_id'

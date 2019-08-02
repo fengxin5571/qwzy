@@ -57,11 +57,11 @@ class SubscribeSupplyController extends AdminController{
                   $show->sub_time('供货时间：')->as(function($sub_time){
                       return date('Y-m-d H:i:s',$sub_time);
                   });
-                  $show->sub_code('取卡验证码：');
-                  $show->expire_time('短信过期时间：')->as(function($expire_time){
+                  $show->sub_code('取卡码：');
+                  $show->expire_time('验证码过期时间：')->as(function($expire_time){
                        return date('Y-m-d H:i:s',$expire_time);
                   });
-                  $show->status('供货状态：')->using(['0'=>'未取卡','1'=>'已过期','2'=>'已取卡']);
+                  $show->status('供货状态：')->using(['0'=>'未取卡','1'=>'已过期','2'=>'已取卡','3'=>'已过磅']);
                   $show->panel()
                        ->style('info')
                        ->title('供货记录详细信息')
@@ -78,7 +78,6 @@ class SubscribeSupplyController extends AdminController{
     }
     protected function grid(){
         $grid=new Grid(new SubscribeSupply);
-        //$grid->column('id',"ID")->width(50)->sortable();
         $grid->column('car_number','车牌号')->label('info');
         $grid->column('driver_name','司机姓名');
         $grid->column('shipper_name','货主名称')->display(function($shipper_name){
@@ -91,17 +90,18 @@ class SubscribeSupplyController extends AdminController{
             return explode(',',$goods_name);
         })->label();
         $grid->column('sub_type','预约类型')->using(['1'=>'临时','2'=>'供货商']);
+        $grid->column('sub_code','取卡码')->width(89);
         $grid->column('sub_time','预约时间')->display(function ($sub_time){
             return date('Y-m-d H:i:s',$sub_time);
         })->sortable()->width(150);
-        $grid->column('sub_code','取卡验证码')->width(89);
-        $grid->column('expire_time','短信过期时间')->display(function ($expire_time){
+        $grid->column('expire_time','验证码过期时间')->display(function ($expire_time){
             return date('Y-m-d H:i:s',$expire_time);
         })->width(150);
         $grid->column('status','供货状态')->using([
             '0'=>'<span class="label label-info">未取卡</span>',
             '1'=>'<span class="label label-danger">已过期</span>',
-            '2'=>'<span class="label label-success">已取卡</span>'
+            '2'=>'<span class="label label-success">已取卡</span>',
+            '3'=>'<span class="label label-success">已过磅</span>'
         ]);
         $grid->actions(function ($actions) {
             if($actions->row->sub_type==1){
@@ -132,6 +132,7 @@ class SubscribeSupplyController extends AdminController{
                     0   => '未取卡',
                     1   => '已过期',
                     2   => '已取卡',
+                    3   => '已过磅'
                 ]);
             });
 

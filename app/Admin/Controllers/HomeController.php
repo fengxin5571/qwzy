@@ -5,7 +5,6 @@ namespace App\Admin\Controllers;
 use App\Http\Controllers\Controller;
 use App\Model\SubscribeSupply;
 use App\Model\Supplier;
-use Encore\Admin\Controllers\Dashboard;
 use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;

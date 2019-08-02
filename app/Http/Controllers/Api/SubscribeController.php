@@ -69,10 +69,7 @@ class SubscribeController extends Controller{
             return $this->response->error($validator->errors()->first(),$this->forbidden_code);
         }
         try{
-            $sms=new SmsService();
-            if(!$code=$sms->sendSms($request->get('mobile'))){
-                return $this->response->error('短信发送失败',$this->forbidden_code);
-            }
+            $code=$this->makeRandCode();
             $data=[
                 'driver_name'=>$request->input('driver_name'),
                 'car_number' =>$request->input('car_number'),
@@ -80,7 +77,7 @@ class SubscribeController extends Controller{
                 'goods_name' =>implode(',',SubscribeGoods::whereIn('id',explode(',',$request->input('goods_name')))->pluck('goods_name')->toArray()),
                 'sub_time'   =>time(),
                 'sub_type'   =>1,
-                'expire_time'=>time()+config('expire_time')*60,
+                'expire_time'=>time()+config('expire_time')*60*60,
                 'sub_code'   =>$code,
                 'card_id'    =>$request->input('card_id'),
             ];
@@ -90,7 +87,7 @@ class SubscribeController extends Controller{
         }catch (\Exception $e){
             return $this->response->error($e->getMessage(),$this->forbidden_code);
         }
-        return $this->successResponse('','预约成功,请在'.config('expire_time').'分钟内取卡');
+        return $this->successResponse('','预约成功,请在'.config('expire_time').'小时内取卡');
     }
 
     /**
@@ -127,10 +124,7 @@ class SubscribeController extends Controller{
             return $this->response->error($validator->errors()->first(),$this->forbidden_code);
         }
         try{
-            $sms=new SmsService();
-            if(!$code=$sms->sendSms($request->get('mobile'))){
-                return $this->response->error('短信发送失败',$this->forbidden_code);
-            }
+            $code=$this->makeRandCode();
             $supplier=Supplier::where(['status'=>1,'id'=>$request->input('sup_id')])->first();
             if(!$supplier){
                 throw new \Exception('预约失败');
@@ -143,7 +137,7 @@ class SubscribeController extends Controller{
                 'goods_name' =>implode(',',SubscribeGoods::whereIn('id',explode(',',$request->input('goods_name')))->pluck('goods_name')->toArray()),
                 'sub_time'   =>time(),
                 'sub_type'   =>2,
-                'expire_time'=>time()+config('expire_time')*60,
+                'expire_time'=>time()+config('expire_time')*60*60,
                 'sub_code'   =>$code,
                 'supplier_id'=>$supplier->id,
                 'bank_address'=>$supplier->bank_address,
@@ -156,6 +150,12 @@ class SubscribeController extends Controller{
         }catch (\Exception $e){
             return $this->response->error($e->getMessage(),$this->forbidden_code);
         }
-        return $this->successResponse('预约成功,请在'.config('expire_time').'分钟内取卡');
+        return $this->successResponse("",'预约成功,请在'.config('expire_time').'小时内取卡');
+    }
+    //随机生成短信验证码
+    protected function makeRandCode()
+    {
+        // 生成4位随机数，左侧补0
+        return random_int(1000,9999);
     }
 }
