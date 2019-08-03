@@ -54,6 +54,7 @@ class SubscribeController extends Controller{
             'mobile.is_mobile'=>'手机格式不正确',
             'card_id.required'=>'身份证号不能为空',
             'card_id.is_card'=>'身份证号格式不正确',
+            'card_id.unique' =>'当前身份证已经预约',
             'goods_name.required'=>'请至少选择一个供货货品',
         ];
         $validator=Validator::make($request->all(),[
@@ -64,7 +65,10 @@ class SubscribeController extends Controller{
                 $query->where(['driver_name'=>$request->input('driver_name'),'sub_type'=>1,'status'=>0]);
             })
             ],
-            'card_id'=>['required','is_card',function($attribute, $value, $fail)use($request){
+            'card_id'=>['required','is_card',Rule::unique('subscribe_supply')->where(function($query){
+                $query->where(['sub_type'=>1,'status'=>0]);
+            }),
+                function($attribute, $value, $fail)use($request){
                 if(SupplyBlacklist::where('card_id',$request->input('card_id'))->count()){
                     $fail('当前用户涉嫌超时过磅，已在黑名单中，请联系管理员');
                     return;
@@ -110,6 +114,7 @@ class SubscribeController extends Controller{
             'mobile.is_mobile'=>'手机格式不正确',
             'card_id.required'=>'身份证号不能为空',
             'card_id.is_card'=>'身份证号格式不正确',
+            'card_id.unique' =>'当前身份证已经预约',
             'goods_name.required'=>'请至少选择一个供货货品',
         ];
         $validator=Validator::make($request->all(),[
@@ -120,7 +125,10 @@ class SubscribeController extends Controller{
                 $query->where(['driver_name'=>$request->input('driver_name'),'sub_type'=>2,'status'=>0]);
             })
             ],
-            'card_id'=>['required','is_card',function($attribute, $value, $fail)use($request){
+            'card_id'=>['required','is_card',Rule::unique('subscribe_supply')->where(function($query){
+                $query->where(['sub_type'=>2,'status'=>0]);
+            }),
+                function($attribute, $value, $fail)use($request){
                 if(SupplyBlacklist::where('card_id',$request->input('card_id'))->count()){
                     $fail('当前用户涉嫌超时过磅，已在黑名单中，请联系管理员');
                     return;

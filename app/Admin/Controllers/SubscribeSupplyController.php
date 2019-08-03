@@ -22,9 +22,9 @@ class SubscribeSupplyController extends AdminController{
      * @return Content
      */
     public function index(Content $content){
-        return $content->header('供货记录')
+        return $content->header('预约记录')
             ->description(trans('admin.list'))
-            ->breadcrumb(['text'=>'供货记录'])
+            ->breadcrumb(['text'=>'预约记录'])
             ->body($this->grid());
     }
 
