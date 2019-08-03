@@ -37,7 +37,8 @@ $api->version('v1',[
             $api->get('my','SupplierController@my');
             //供应商微信绑定
             $api->post('/weixin/bind','AuthController@bind');
-
+            //退出登录
+            $api->post('loginout','SupplierController@loginout');
         });
     });
     //企业通知

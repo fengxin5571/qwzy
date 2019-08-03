@@ -15,9 +15,15 @@ class SupplierController extends Controller{
      */
     public function  my(){
         $data=$this->user;
-        if($data){
-            $data['is_bind']=$this->user->routine_openid?true:false;
-        }
+        $data['is_bind']=$this->user->routine_openid?true:false;
         return $this->successResponse($data);
+    }
+    /**
+     * 退出登录
+     * @return mixed
+     */
+    public function loginout(){
+        auth('api')->logout();
+        return $this->successResponse('','退出登录成功');
     }
 }
