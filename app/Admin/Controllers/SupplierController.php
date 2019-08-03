@@ -169,6 +169,8 @@ class SupplierController extends AdminController {
         $grid->id('ID')->width(50)->sortable();
         $grid->column('shipper_name','货主名称');
         $grid->column('mobile','手机号')->width(80);
+        $grid->column('bank_address','开户行');
+        $grid->column('bank_code','卡号');
         $grid->column('nickname','微信昵称')->display(function ($nickname){
             if($nickname){
                 return $nickname;

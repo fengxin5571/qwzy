@@ -124,40 +124,7 @@ class AuthController extends Controller{
         $result['token']=$token;
         return $this->successResponse($result,'登录成功');
     }
-    /**
-     * 微信快捷绑定
-     * @param Request $request
-     * @return mixed
-     */
-    public function bind(Request $request,Supplier $supplier){
-        $message=[
-            'mobile.required'=>'手机号不能为空',
-            'driver_name.required'=>'姓名不能为空',
-            'nickName.required'=>'昵称不能为空',
-            'avatarUrl.required'=>'头像不能为空',
-            'routine_openid.required'=>'openid不能为空'
-        ];
-        $validator=Validator::make($request->all(),[
-            'mobile'=>'required',
-            'driver_name'=>'required',
-            'nickName'=>'required',
-            'avatarUrl'=>'required',
-            'routine_openid'=>'required'
-        ],$message);
-        if($validator->fails()){
-            return $this->response->error($validator->errors()->first(),$this->forbidden_code);
-        }
-        if(!$supinfo=$supplier->where(['driver_name'=>$request->input('driver_name'),'mobile'=>$request->input('mobile'),'status'=>1])->first()){
-            return $this->response->error('无此账号或账号已停用',$this->forbidden_code);
-        }
-        if($supinfo->update(
-            ['routine_openid'=>$request->input('routine_openid'),'nickname'=>$request->input('nickName'),'headimgurl'=>$request->input('avatarUrl')])){
-            return $this->successResponse('','绑定成功');
-        }else{
-            return $this->response->error('绑定失败',$this->forbidden_code);
-        }
 
-    }
     /**
      * 获取openid
      * @param Request $request
