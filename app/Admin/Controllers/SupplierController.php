@@ -176,7 +176,13 @@ class SupplierController extends AdminController {
                 return '暂未绑定微信';
             }
         });
-        $grid->column('headimgurl','微信头像')->image();
+        $grid->column('headimgurl','微信头像')->display(function ($headimgurl) {
+            if($headimgurl){
+                return $headimgurl;
+            }else{
+                return config('app.url').'/vendor/laravel-admin/timg.jpeg';
+            }
+        })->image('',50,50);
         $grid->column('add_time','注册时间');
         if(config('register_pay')){//是否开启注册支付
             $grid->column('expire_time','付费到期时间')->display(function ($expire_time){
