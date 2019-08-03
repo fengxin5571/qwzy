@@ -52,13 +52,12 @@ class SupplierController extends Controller{
         }
         if($supinfo->update(
             ['routine_openid'=>$request->input('routine_openid'),'nickname'=>$request->input('nickName'),'headimgurl'=>$request->input('avatarUrl')])){
-            return $this->successResponse('','绑定成功');
+            return $this->successResponse($supinfo,'绑定成功');
         }else{
             return $this->response->error('绑定失败',$this->forbidden_code);
         }
 
     }
-
     /**
      * 解除微信绑定
      * @return mixed
