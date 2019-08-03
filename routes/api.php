@@ -50,6 +50,8 @@ $api->version('v1',[
         $api->get('/hot_search','ArticleController@hot_search');
         //文章列表
         $api->get('/list','ArticleController@list');
+        //文章详情
+        $api->get('/details','ArticleController@details');
     });
     //预约供货
     $api->group(['prefix'=>'subscribe'],function ($api){

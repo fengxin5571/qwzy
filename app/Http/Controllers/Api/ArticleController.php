@@ -56,9 +56,28 @@ class ArticleController extends Controller {
         $hot_search=explode(',',$hot_search);
         return $this->successResponse($hot_search);
     }
+
+    /**
+     * 文章列表
+     * @param Request $request
+     * @param Article $article
+     * @return mixed
+     */
     public function list(Request $request,Article $article)
     {
         $data=$article->getList($request);
         return $this->successResponse($data);
+    }
+    /**
+     * 文章详情
+     * @param Request $request
+     */
+    public function details(Request $request){
+        $id=$request->input('id');
+        $article=Article::find($id);
+        if(!$id||!$article){
+            return $this->response->error('文章id为空或文章不存在',$this->forbidden_code);
+        }
+        return $this->successResponse($article);
     }
 }
