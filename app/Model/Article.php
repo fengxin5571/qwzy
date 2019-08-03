@@ -82,7 +82,7 @@ class Article extends Eloquent
                 $query->where('tag_id',$request->input('tag_id'));
             }
 
-        })->forPage($request->input('page',1),$request->input('limit',10))->get();
+        })->forPage($request->input('page',1),$request->input('limit',10))->get(['id','c_id','title','description','add_time']);
         $data['count']=$data['list']->count();
         return $data;
     }
