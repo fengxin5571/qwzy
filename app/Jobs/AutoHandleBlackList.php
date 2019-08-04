@@ -43,7 +43,7 @@ class AutoHandleBlackList implements ShouldQueue
                     'card_id'    =>$item->card_id,
                     'add_time'   =>time()
                 ];
-                SupplyBlacklist::create($insert_array);
+                SupplyBlacklist::updateOrCreate($insert_array,['card_id'=>$item->card_id]);
                 $item->update(['status'=>4]);
             }
         });
