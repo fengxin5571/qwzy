@@ -13,6 +13,7 @@ use App\Jobs\AutoHandleBlackList;
 use App\Model\Article;
 use App\Model\ArticleCategory;
 use App\Model\ArticleTag;
+use App\Model\SupplyBlacklist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
