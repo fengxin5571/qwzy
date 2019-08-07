@@ -81,13 +81,13 @@ class AuthController extends Controller{
             'mobile'=>'required'
         ],$message);
         if($validator->fails()){
-            return $this->response->error($validator->errors()->first(),$this->forbidden_code);
+            return $this->response->error($validator->errors()->first(),$this->unauth_code);
         }
         $credentials=$request->only('shipper_name','mobile');
         $supplier=Supplier::where(['shipper_name'=>$credentials['shipper_name'],'mobile'=>$credentials['mobile'],'status'=>1])->first();
-        if(!$supplier) return $this->response->error('登录失败，请确认账号是否正确',$this->forbidden_code);
+        if(!$supplier) return $this->response->error('登录失败，请确认账号是否正确',$this->unauth_code);
         if(!$token=auth('api')->login($supplier)){
-            return $this->response->error('登录失败，请确认账号是否正确',$this->forbidden_code);
+            return $this->response->error('登录失败，请确认账号是否正确',$this->unauth_code);
         }
         $data['token']=$token;
         return $this->successResponse($data,'登录成功');
@@ -106,20 +106,20 @@ class AuthController extends Controller{
             'code'=>'required'
         ],$message);
         if($validator->fails()){
-            return $this->response->error($validator->errors()->first(),$this->forbidden_code);
+            return $this->response->error($validator->errors()->first(),$this->unauth_code);
         }
         $res=$this->app->auth->session($request->input('code'));
         if(!isset($res['openid'])){
-            return $this->response->error('openid获取失败',$this->forbidden_code);
+            return $this->response->error('openid获取失败',$this->unauth_code);
         }
         $data['routine_openid']=$res['openid'];
 //        $data['routine_openid']='orc0L0oJ8CTGLxqt6r07R3htqAAs';
         $item=$supplier->routineOauth($data);
         if($item['error']||empty($item['info'])){
-            return $this->response->error($item['message'],$this->forbidden_code);
+            return $this->response->error($item['message'],$this->unauth_code);
         }
         if(!$token=auth('api')->login($item['info'])){
-            return $this->response->error('登录失败，请确认账号是否正确',$this->forbidden_code);
+            return $this->response->error('登录失败，请确认账号是否正确',$this->unauth_code);
         }
         $result['token']=$token;
         return $this->successResponse($result,'登录成功');

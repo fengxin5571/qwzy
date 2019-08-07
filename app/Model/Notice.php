@@ -27,7 +27,7 @@ class Notice extends Eloquent
 
 	protected $casts = [
 		'type' => 'int',
-		'add_time' => 'int'
+		'add_time' => 'date:Y-m-d H:i:s'
 	];
 
 	protected $fillable = [

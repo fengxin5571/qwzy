@@ -18,7 +18,7 @@ class AuthToken
     {
         $supllier=auth('api')->user();
         if(empty($supllier)){
-            return $this->response->error('token过期或不正确',403);
+            return $this->response->error('token过期或不正确',401);
         }
         return $next($request);
     }

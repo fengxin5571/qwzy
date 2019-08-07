@@ -41,6 +41,8 @@ $api->version('v1',[
             $api->post('/weixin/unbind','SupplierController@unbind');
             //退出登录
             $api->post('loginout','SupplierController@loginout');
+            //我的通知
+            $api->get('notice','SupplierController@notice');
         });
     });
     //企业通知

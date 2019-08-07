@@ -7,6 +7,7 @@
  */
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
+use App\Model\Notice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 class SupplierController extends Controller{
@@ -68,5 +69,20 @@ class SupplierController extends Controller{
             return $this->successResponse('','解绑成功');
         }
         return $this->response->error('解绑失败',$this->forbidden_code);
+    }
+    /**
+     * 我的通知
+     * @param Request $request
+     * @return mixed
+     */
+    public function notice(Request $request){
+        $type=$request->input('type');
+        if(!$type){
+            return $this->response->error('通知类型id为空',$this->forbidden_code);
+        }
+        $data['list']=Notice::where('type',$type)->forPage($request->input('page',1),$request->input('limit',15))
+            ->get(['id','title','content','add_time']);
+        $data['count']=$data['list']->count();
+        return $this->successResponse($data);
     }
 }
