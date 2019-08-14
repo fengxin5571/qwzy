@@ -31,6 +31,8 @@ $api->version('v1',[
         $api->post('miniLogin','AuthController@routeLogin');
         //获取openid
         $api->get('/weixin/openid','AuthController@getOpenId');
+        //获取小程序码
+        $api->get('/getcode','AuthController@getCode');
 
         $api->group(['middleware'=>'authToken'],function ($api){
             //个人中心

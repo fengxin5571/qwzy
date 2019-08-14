@@ -11,6 +11,7 @@ use App\Model\Supplier;
 use EasyWeChat\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -151,4 +152,23 @@ class AuthController extends Controller{
         return $this->successResponse($data);
     }
 
+    /**
+     * 获取小程序码
+     * @return mixed
+     */
+    public function getCode(){
+        try{
+            if(Storage::disk('public')->exists('code/qwzycode.png')){
+                $data['codeImg']=Storage::disk('public')->url('code/qwzycode.png');
+            }else{
+                $response=$this->app->app_code->get('pages/index/index');
+                $filename=$response->saveAs(storage_path('app/public').'/code','qwzycode.png');
+                $data['codeImg']=Storage::disk('public')->url('code/'.$filename);
+            }
+
+        }catch (\Exception $e){
+            return $this->response->error($e->getMessage(),$this->forbidden_code);
+        }
+        return $this->successResponse($data);
+    }
 }
