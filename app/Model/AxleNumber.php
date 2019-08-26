@@ -24,7 +24,8 @@ class AxleNumber extends Eloquent
 	public $timestamps = false;
 
 	protected $casts = [
-		'add_time' => 'date:Y-m-d H:i:s'
+		'add_time' => 'date:Y-m-d H:i:s',
+        'axle_number'=>'int'
 	];
 
 	protected $fillable = [

@@ -55,6 +55,12 @@ class SubscribeSupplyController extends AdminController{
                       $show->bank_address('银行卡开户行：');
                       $show->bank_code('银行卡卡号：');
                   }
+                  $show->axle_number('车轴数：');
+                  $show->load_weight('载重量：');
+                  $show->gross_weight('毛重(吨)：');
+                  $show->tare_weight('皮重(吨)：');
+                  $show->channel('运输来源：');
+                  $show->unit_name('供货单位：');
                   $show->sub_time('供货时间：')->as(function($sub_time){
                       return date('Y-m-d H:i:s',$sub_time);
                   });

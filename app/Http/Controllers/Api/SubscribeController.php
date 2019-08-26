@@ -7,6 +7,7 @@
  */
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
+use App\Model\AxleNumber;
 use App\Model\CarDiscern;
 use App\Model\CarLetter;
 use App\Model\SubscribeGoods;
@@ -42,6 +43,14 @@ class SubscribeController extends Controller{
         return $this->successResponse($data);
     }
     /**
+     * 获取车轴数
+     * @return mixed
+     */
+    public function axle_number(){
+        $data=AxleNumber::all(['axle_number']);
+        return $this->successResponse($data);
+    }
+    /**
      * 临时预约供货
      * @param Request $request
      */
@@ -56,6 +65,16 @@ class SubscribeController extends Controller{
             'card_id.is_card'=>'身份证号格式不正确',
             'card_id.unique' =>'当前身份证已经预约',
             'goods_name.required'=>'请至少选择一个供货货品',
+            'axle_number.required'=>'车轴数不能为空',
+            'axle_number.numeric'=>'车轴数必须是数字',
+            'load_weight.required'=>'载重量不能为空',
+            'load_weight.numeric'=>'载重量必须是数字',
+            'gross_weight.required'=>'毛重不能为空',
+            'gross_weight.numeric' =>'毛重必须是数字',
+            'tare_weight.required'=>'皮重不能为空',
+            'tare_weight.numeric' =>'皮重必须是数字',
+            'channel.required'=>'运输来源不能为空',
+            'unit_name.required'=>'供货单位不能为空',
         ];
         $validator=Validator::make($request->all(),[
             'driver_name'=>'required',
@@ -74,6 +93,12 @@ class SubscribeController extends Controller{
                     return;
                 }
             }],
+            'axle_number' =>'required|numeric',
+            'load_weight' =>'required|numeric',
+            'gross_weight'=>'required|numeric',
+            'tare_weight' =>'required|numeric',
+            'channel'     =>'required',
+            'unit_name'   =>'required'
         ],$messages);
         if($validator->fails()){
             return $this->response->error($validator->errors()->first(),$this->forbidden_code);
@@ -90,6 +115,12 @@ class SubscribeController extends Controller{
                 'expire_time'=>time()+config('expire_time')*60*60,
                 'sub_code'   =>$code,
                 'card_id'    =>$request->input('card_id'),
+                'axle_number' =>$request->input('axle_number'),
+                'load_weight' =>$request->input('load_weight'),
+                'gross_weight'=>$request->input('gross_weight'),
+                'tare_weight' =>$request->input('tare_weight'),
+                'channel'     =>$request->input('channel'),
+                'unit_name'   =>$request->input('unit_name')
             ];
             if(!$supply=SubscribeSupply::create($data)){
                 throw new \Exception('预约失败');

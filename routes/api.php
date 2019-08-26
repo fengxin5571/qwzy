@@ -66,6 +66,8 @@ $api->version('v1',[
         $api->get('carDiscern','SubscribeController@carDiscern');
         //车牌字母
         $api->get('carLetter','SubscribeController@carLetter');
+        //获取车轴数
+        $api->get('axleNumber','SubscribeController@axle_number');
         //获取供货货品
         $api->get('goods','SubscribeController@goods');
         //临时供货

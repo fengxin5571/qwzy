@@ -59,7 +59,7 @@ class AxleNumberController extends AdminController{
     }
     protected function form(){
         $form=new Form(new AxleNumber());
-        $form->text('axle_number','车轴数')->required();
+        $form->number('axle_number','车轴数')->required()->default('1');
         $form->saving(function(Form $form){
             $form->model()->add_time=time();
 

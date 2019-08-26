@@ -35,13 +35,22 @@ class SubscribeSupply extends Eloquent
 		'sub_time' => 'int',
 		'sub_code' => 'int',
 		'status' => 'int',
-        'supplier_id'=>'int'
+        'supplier_id'=>'int',
+        'load_weight'=>'float(10,2)',
+        'gross_weight'=>'float(10,2)',
+        'tare_weight' =>'float(10,2)'
 	];
 
 	protected $fillable = [
 		'driver_name',
 		'shipper_name',
 		'car_number',
+        'axle_number',
+        'load_weight',
+        'gross_weight',
+        'tare_weight',
+        'channel',
+        'unit_name',
 		'mobile',
 		'sub_type',
 		'sub_time',
