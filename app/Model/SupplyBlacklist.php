@@ -33,6 +33,7 @@ class SupplyBlacklist extends Eloquent
 		'driver_name',
 		'mobile',
 		'card_id',
+        'car_number',
 		'add_time'
 	];
 }

@@ -29,6 +29,7 @@ class SupplyBlackListController extends  AdminController{
         $grid=new Grid(new SupplyBlacklist());
         $grid->disableCreateButton();
         $grid->column('id','ID')->sortable();
+        $grid->column('card_number','车牌');
         $grid->column('driver_name','司机姓名');
         $grid->column('mobile','司机手机号');
         $grid->column('card_id','身份证号');
