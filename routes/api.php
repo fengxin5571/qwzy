@@ -75,7 +75,8 @@ $api->version('v1',[
         //供货商供货
         $api->get('sup','SubscribeController@supplier')->middleware('authToken');
     });
-    //
+    //车辆排队
+    $api->get('queue','QueueController@queue');
 
 });
 Route::middleware('auth:api')->get('/user', function (Request $request) {
