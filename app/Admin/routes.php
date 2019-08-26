@@ -89,6 +89,16 @@ Route::group([
         $router->put('carLetter/{id}','CarletterController@update');
         //删除车牌字母
         $router->delete('carLetter/{id}','CarletterController@destroy');
+        //车轴数管理
+        $router->get('axleNumber','AxleNumberController@index');
+        //新增车轴数
+        $router->get('axleNumber/create','AxleNumberController@create');
+        $router->post('axleNumber','AxleNumberController@store');
+        //编辑车轴数
+        $router->get('axleNumber/{id}/edit','AxleNumberController@edit');
+        $router->put('axleNumber/{id}','AxleNumberController@update');
+        //删除车轴数
+        $router->delete('axleNumber/{id}','AxleNumberController@destroy');
         //预约货品列表
         $router->get('/goods','SubscribeGoodController@index');
         //新增预约货品
