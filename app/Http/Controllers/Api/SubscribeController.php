@@ -8,6 +8,7 @@
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Model\AxleNumber;
+use App\Model\CarBlacklist;
 use App\Model\CarDiscern;
 use App\Model\CarLetter;
 use App\Model\SubscribeGoods;
@@ -78,7 +79,12 @@ class SubscribeController extends Controller{
         ];
         $validator=Validator::make($request->all(),[
             'driver_name'=>'required',
-            'car_number' =>'required',
+            'car_number' =>['required',function($attribute, $value, $fail) use($request){
+                if(CarBlacklist::where('car_number',$request->input('car_number'))->count()){
+                    $fail('当前车辆涉嫌违规操作，已在黑名单中，请联系管理员');
+                    return;
+                }
+            }],
             'goods_name'=>'required',
             'mobile'     =>['required','is_mobile',Rule::unique('subscribe_supply')->where(function($query)use($request){
                 $query->where(['driver_name'=>$request->input('driver_name'),'sub_type'=>1,'status'=>0]);
@@ -160,7 +166,12 @@ class SubscribeController extends Controller{
         ];
         $validator=Validator::make($request->all(),[
             'driver_name'=>'required',
-            'car_number' =>'required',
+            'car_number' =>['required',function($attribute, $value, $fail) use($request){
+                if(CarBlacklist::where('car_number',$request->input('car_number'))->count()){
+                    $fail('当前车辆涉嫌违规操作，已在黑名单中，请联系管理员');
+                    return;
+                }
+            }],
             'goods_name'=>'required',
             'mobile'     =>['required','is_mobile',Rule::unique('subscribe_supply')->where(function($query)use($request){
                 $query->where(['driver_name'=>$request->input('driver_name'),'sub_type'=>2,'status'=>0]);

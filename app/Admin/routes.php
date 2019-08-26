@@ -122,6 +122,13 @@ Route::group([
         $router->get('/black/list','SupplyBlackListController@index');
         //删除预约黑名单
         $router->delete('/black/list/{id}','SupplyBlackListController@destroy');
+        //车牌黑名单
+        $router->get('/black/car/list','CarBlackListController@index');
+        //新增车牌黑名单
+        $router->get('/black/car/list/create','CarBlackListController@create');
+        $router->post('/black/car/list','CarBlackListController@store');
+        //删除车牌黑名单
+        $router->delete('/black/car/list/{id}','CarBlackListController@destroy');
     });
     //系统设置
     $router->get('settings','FormController@setting');
