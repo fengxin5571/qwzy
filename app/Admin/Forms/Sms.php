@@ -27,6 +27,7 @@ class Sms extends Form
         //dump($request->all());
         ConfigModel::where('name','expire_time')->update(['value'=>$request->get('expire_time')]);
         ConfigModel::where('name','take_time')->update(['value'=>$request->get('take_time')]);
+        ConfigModel::where('name','queue_weigh_time')->update(['value'=>$request->get('queue_weigh_time')]);
 //        ConfigModel::where('name','access_key_secret')->update(['value'=>$request->get('access_key_secret')]);
         admin_success('配置成功');
 
@@ -40,6 +41,7 @@ class Sms extends Form
     {
         $this->datetime('expire_time','验证码过期时间(小时):')->format('H');
         $this->datetime('take_time','过磅超时时间(小时):')->format('H');
+        $this->datetime('queue_weigh_time','排队超时时间(分钟):')->format('m');
 //        $this->text('access_key_id','阿里云AccessKey ID');
 //        $this->text('access_key_secret','阿里云AccessKey Secret');
     }
@@ -54,6 +56,7 @@ class Sms extends Form
         return [
             'expire_time'      => ConfigModel::where('name','expire_time')->value('value'),
             'take_time'        => ConfigModel::where('name','take_time')->value('value'),
+            'queue_weigh_time' => ConfigModel::where('name','queue_weigh_time')->value('value'),
 //            'access_key_id'    => ConfigModel::where('name','access_key_id')->value('value'),
 //            'access_key_secret'=> ConfigModel::where('name','access_key_secret')->value('value'),
         ];
