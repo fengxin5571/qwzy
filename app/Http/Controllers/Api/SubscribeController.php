@@ -109,6 +109,9 @@ class SubscribeController extends Controller{
             return $this->response->error($validator->errors()->first(),$this->forbidden_code);
         }
         try{
+            if(!is_numeric($request->input('delivery_weight',0.00))){
+                return $this->response->error('送货重量必须是数字',$this->forbidden_code);
+            }
             $code=$this->makeRandCode();
             $data=[
                 'driver_name'=>$request->input('driver_name'),

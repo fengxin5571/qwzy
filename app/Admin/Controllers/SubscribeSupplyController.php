@@ -61,7 +61,7 @@ class SubscribeSupplyController extends AdminController{
                   $show->unit_name('供货单位：');
                   $show->unit_transport('运输单位：');
                   $show->delivery_weight('送货重量：');
-                  $show->paper_number('废纸件数');
+                  $show->paper_number('废纸件数：');
                   $show->sub_time('供货时间：')->as(function($sub_time){
                       return date('Y-m-d H:i:s',$sub_time);
                   });
