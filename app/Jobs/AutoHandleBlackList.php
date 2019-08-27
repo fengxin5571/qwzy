@@ -37,13 +37,13 @@ class AutoHandleBlackList implements ShouldQueue
         }
         $this->supply->each(function ($item,$key){
             if($item->take_time+config('take_time')*60*60<time()){
-                $insert_array=[
-                    'driver_name'=>$item->driver_name,
-                    'mobile'     =>$item->mobile,
-                    'card_id'    =>$item->card_id,
-                    'add_time'   =>time()
-                ];
-                SupplyBlacklist::updateOrCreate(['card_id'=>$item->card_id],$insert_array);
+//                $insert_array=[
+//                    'driver_name'=>$item->driver_name,
+//                    'mobile'     =>$item->mobile,
+//                    'card_id'    =>$item->card_id,
+//                    'add_time'   =>time()
+//                ];
+//                SupplyBlacklist::updateOrCreate(['card_id'=>$item->card_id],$insert_array);
                 $item->update(['status'=>4]);
             }
         });

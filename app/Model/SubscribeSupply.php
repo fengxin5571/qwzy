@@ -37,8 +37,7 @@ class SubscribeSupply extends Eloquent
 		'status' => 'int',
         'supplier_id'=>'int',
         'load_weight'=>'float(10,2)',
-        'gross_weight'=>'float(10,2)',
-        'tare_weight' =>'float(10,2)'
+        'delivery_weight'=>'float(10,2)'
 	];
 
 	protected $fillable = [
@@ -49,6 +48,9 @@ class SubscribeSupply extends Eloquent
         'load_weight',
         'channel',
         'unit_name',
+        'unit_transport',
+        'delivery_weight',
+        'paper_number',
 		'mobile',
 		'sub_type',
 		'sub_time',

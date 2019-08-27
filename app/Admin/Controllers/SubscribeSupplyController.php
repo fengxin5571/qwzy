@@ -40,27 +40,28 @@ class SubscribeSupplyController extends AdminController{
                ->description('查看')
                ->breadcrumb(['text'=>'查看供货记录'])
                ->body(Admin::show($info,function($show)use ($info){
+                   if($info->sub_type==2){
+                       $show->shipper_name('货主名称：');
+                       $show->bank_address('银行卡开户行：');
+                       $show->bank_code('银行卡卡号：');
+                   }
                   $show->car_number('车牌号：');
                   $show->driver_name('司机姓名：');
-                  $show->shipper_name('货主名称：')->as(function($shipper_name){
-                      return $shipper_name?$shipper_name:'临时供货';
-                  });
+
                   $show->mobile('手机号：');
                   $show->goods_name('供货货品：');
                   $show->sub_type('供货类型：')->as(function($sub_type){
                       return $sub_type==1?'临时供货':'供货商供货';
                    });
                   $show->card_id('身份证号：');
-                  if($info->sub_type==2){
-                      $show->bank_address('银行卡开户行：');
-                      $show->bank_code('银行卡卡号：');
-                  }
+
                   $show->axle_number('车轴数：');
-                  $show->load_weight('载重量：');
-                  $show->gross_weight('毛重(吨)：');
-                  $show->tare_weight('皮重(吨)：');
+                  $show->load_weight('荷载重量：');
                   $show->channel('运输来源：');
                   $show->unit_name('供货单位：');
+                  $show->unit_transport('运输单位：');
+                  $show->delivery_weight('送货重量：');
+                  $show->paper_number('废纸件数');
                   $show->sub_time('供货时间：')->as(function($sub_time){
                       return date('Y-m-d H:i:s',$sub_time);
                   });
