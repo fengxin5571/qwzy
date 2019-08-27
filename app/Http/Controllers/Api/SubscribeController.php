@@ -70,10 +70,6 @@ class SubscribeController extends Controller{
             'axle_number.numeric'=>'车轴数必须是数字',
             'load_weight.required'=>'载重量不能为空',
             'load_weight.numeric'=>'载重量必须是数字',
-            'gross_weight.required'=>'毛重不能为空',
-            'gross_weight.numeric' =>'毛重必须是数字',
-            'tare_weight.required'=>'皮重不能为空',
-            'tare_weight.numeric' =>'皮重必须是数字',
             'channel.required'=>'运输来源不能为空',
             'unit_name.required'=>'供货单位不能为空',
         ];
@@ -101,8 +97,6 @@ class SubscribeController extends Controller{
             }],
             'axle_number' =>'required|numeric',
             'load_weight' =>'required|numeric',
-            'gross_weight'=>'required|numeric',
-            'tare_weight' =>'required|numeric',
             'channel'     =>'required',
             'unit_name'   =>'required'
         ],$messages);
@@ -123,8 +117,6 @@ class SubscribeController extends Controller{
                 'card_id'    =>$request->input('card_id'),
                 'axle_number' =>$request->input('axle_number'),
                 'load_weight' =>$request->input('load_weight'),
-                'gross_weight'=>$request->input('gross_weight'),
-                'tare_weight' =>$request->input('tare_weight'),
                 'channel'     =>$request->input('channel'),
                 'unit_name'   =>$request->input('unit_name')
             ];
@@ -157,10 +149,6 @@ class SubscribeController extends Controller{
             'axle_number.numeric'=>'车轴数必须是数字',
             'load_weight.required'=>'载重量不能为空',
             'load_weight.numeric'=>'载重量必须是数字',
-            'gross_weight.required'=>'毛重不能为空',
-            'gross_weight.numeric' =>'毛重必须是数字',
-            'tare_weight.required'=>'皮重不能为空',
-            'tare_weight.numeric' =>'皮重必须是数字',
             'channel.required'=>'运输来源不能为空',
             'unit_name.required'=>'供货单位不能为空',
         ];
@@ -188,8 +176,6 @@ class SubscribeController extends Controller{
             }],
             'axle_number' =>'required|numeric',
             'load_weight' =>'required|numeric',
-            'gross_weight'=>'required|numeric',
-            'tare_weight' =>'required|numeric',
             'channel'     =>'required',
             'unit_name'   =>'required'
 
@@ -219,8 +205,6 @@ class SubscribeController extends Controller{
                 'card_id'    =>$request->input('card_id'),
                 'axle_number' =>$request->input('axle_number'),
                 'load_weight' =>$request->input('load_weight'),
-                'gross_weight'=>$request->input('gross_weight'),
-                'tare_weight' =>$request->input('tare_weight'),
                 'channel'     =>$request->input('channel'),
                 'unit_name'   =>$request->input('unit_name')
             ];

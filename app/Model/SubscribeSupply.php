@@ -47,8 +47,6 @@ class SubscribeSupply extends Eloquent
 		'car_number',
         'axle_number',
         'load_weight',
-        'gross_weight',
-        'tare_weight',
         'channel',
         'unit_name',
 		'mobile',
