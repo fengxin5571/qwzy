@@ -11,6 +11,7 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
+use Illuminate\Support\MessageBag;
 
 class SupplyBlackListController extends  AdminController{
     /**
@@ -65,6 +66,16 @@ class SupplyBlackListController extends  AdminController{
         $form->text('driver_name','司机姓名')->required();
         $form->mobile('mobile','手机号')->options(['mask' => '999 9999 9999'])->required();
         $form->text('card_id','身份证号')->required();
+        $form->saving(function(Form $form){
+            $form->model()->add_time=time();
+            if(SupplyBlacklist::where('card_id',$form->card_id)->count()){
+                $error = new MessageBag([
+                    'title'   => '错误',
+                    'message' => '此司机已经存在',
+                ]);
+                return back()->with(compact('error'));
+            }
+        });
         return $form;
     }
 }
