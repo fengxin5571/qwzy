@@ -120,6 +120,9 @@ Route::group([
         $router->delete('/list/{id}','SubscribeSupplyController@destroy');
         //预约黑名单
         $router->get('/black/list','SupplyBlackListController@index');
+        //新增预约黑名单
+        $router->get('black/list/create','SupplyBlackListController@create');
+        $router->post('black/list','SupplyBlackListController@store');
         //删除预约黑名单
         $router->delete('/black/list/{id}','SupplyBlackListController@destroy');
         //车牌黑名单

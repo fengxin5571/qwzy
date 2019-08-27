@@ -25,9 +25,21 @@ class SupplyBlackListController extends  AdminController{
             ->breadcrumb(['text'=>'预约黑名单'])
             ->body($this->grid());
     }
+    /**
+     * 新增黑名单
+     * @param Content $content
+     * @return Content
+     */
+    public function create(Content $content){
+        return $content
+            ->header('新增黑名单')
+            ->description('新增')
+            ->breadcrumb(['text'=>'预约黑名单'])
+            ->body($this->form());
+
+    }
     protected function grid(){
         $grid=new Grid(new SupplyBlacklist());
-        $grid->disableCreateButton();
         $grid->column('id','ID')->sortable();
         $grid->column('driver_name','司机姓名');
         $grid->column('mobile','司机手机号');
@@ -50,6 +62,9 @@ class SupplyBlackListController extends  AdminController{
     }
     protected function form(){
         $form=new Form(new SupplyBlacklist());
+        $form->text('driver_name','司机姓名')->required();
+        $form->mobile('mobile','手机号')->options(['mask' => '999 9999 9999'])->required();
+        $form->text('card_id','身份证号')->required();
         return $form;
     }
 }
