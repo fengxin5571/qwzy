@@ -162,6 +162,9 @@ class SubscribeController extends Controller{
             'load_weight.numeric'=>'载重量必须是数字',
             'channel.required'=>'运输来源不能为空',
             'unit_name.required'=>'供货单位不能为空',
+            'unit_transport.required'=>'运输单位不能为空',
+            'paper_number.required'=>'废纸件数不能为空',
+            'paper_number.numeric'=>'废纸件数必须为数字',
         ];
         $validator=Validator::make($request->all(),[
             'driver_name'=>'required',
@@ -188,13 +191,18 @@ class SubscribeController extends Controller{
             'axle_number' =>'required|numeric',
             'load_weight' =>'required|numeric',
             'channel'     =>'required',
-            'unit_name'   =>'required'
+            'unit_name'   =>'required',
+            'unit_transport'=>'required',
+            'paper_number'  =>'required|numeric'
 
         ],$messages);
         if($validator->fails()){
             return $this->response->error($validator->errors()->first(),$this->forbidden_code);
         }
         try{
+            if(!is_numeric($request->input('delivery_weight',0.00))){
+                return $this->response->error('送货重量必须是数字',$this->forbidden_code);
+            }
             $code=$this->makeRandCode();
             $supplier=$this->user;
             if(!$supplier){
@@ -217,7 +225,10 @@ class SubscribeController extends Controller{
                 'axle_number' =>$request->input('axle_number'),
                 'load_weight' =>$request->input('load_weight'),
                 'channel'     =>$request->input('channel'),
-                'unit_name'   =>$request->input('unit_name')
+                'unit_name'   =>$request->input('unit_name'),
+                'unit_transport'=>$request->input('unit_transport'),
+                'paper_number'  =>$request->input('paper_number'),
+                'delivery_weight'=>$request->input('delivery_weight',0.00),
             ];
             if(!$supply=SubscribeSupply::create($data)){
                 throw new \Exception('预约失败');
