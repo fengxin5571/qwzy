@@ -105,6 +105,12 @@ class SubscribeSupplyController extends AdminController{
         $content->body('<div class="box box-info">'.$form->render().'</div>');
         return $content;
     }
+
+    /**
+     * 导入提交
+     * @param Request $request
+     * @return $this|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\think\response\Redirect|void
+     */
     public function importPost(Request $request){
         try{
             $file=$request->file('importFile');

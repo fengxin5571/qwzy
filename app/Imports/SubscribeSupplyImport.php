@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Model\SubscribeSupply;
+use App\Model\Supplier;
 use Maatwebsite\Excel\Concerns\ToArray;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -19,6 +20,7 @@ class SubscribeSupplyImport implements ToCollection,WithHeadingRow,WithBatchInse
     */
     public function collection(Collection $rows)
     {
+        $data=[];
         foreach ($rows as $row)
         {
             $existsData=SubscribeSupply::where([
@@ -29,10 +31,19 @@ class SubscribeSupplyImport implements ToCollection,WithHeadingRow,WithBatchInse
             if($existsData){
                 return null;
             }
+            if((int)$row['供货商id']){
+                $info=Supplier::find((int)$row['供货商id']);
+                if(!$info){
+                    return null;
+                }
+                $data['shipper_name']=$info->shipper_name;
+                $data['bank_address']=$info->bank_address;
+                $data['bank_code']   =$info->bank_code;
+            }
             SubscribeSupply::create([
-                'shipper_name'=>$row['货主名称']?:"",
-                'bank_address'=>$row['银行开户行']?:"",
-                'bank_code'   =>$row['银行卡号']?:"",
+                'shipper_name'=>isset($data['shipper_name'])?$data['shipper_name']:'',
+                'bank_address'=>isset($data['bank_address'])?$data['bank_address']:'',
+                'bank_code'   =>isset($data['bank_code'])?$data['bank_code']:'',
                 'car_number'  =>$row['车牌'],
                 'driver_name' =>$row['司机姓名'],
                 'mobile'      =>(int)$row['司机手机号'],
