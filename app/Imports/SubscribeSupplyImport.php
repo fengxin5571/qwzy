@@ -31,7 +31,7 @@ class SubscribeSupplyImport implements ToCollection,WithHeadingRow,WithBatchInse
             if($existsData){
                 return null;
             }
-            if((int)$row['供货商id']&&$row['预约类型']=='临时'){
+            if((int)$row['供货商id']&&$row['预约类型']=='供货商'){
                 $info=Supplier::find((int)$row['供货商id']);
                 if(!$info){
                     return null;
