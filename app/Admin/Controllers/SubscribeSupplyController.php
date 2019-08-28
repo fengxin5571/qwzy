@@ -6,7 +6,9 @@
  * Time: 11:02 AM
  */
 namespace App\Admin\Controllers;
+use App\Admin\Extensions\Tools\SubSupplyimport;
 use App\Admin\Filters\TimestampBetween;
+use App\Imports\SubscribeSupplyImport;
 use App\Jobs\AutoHandleBlackList;
 use App\Model\SubscribeSupply;
 use Encore\Admin\Controllers\AdminController;
@@ -14,6 +16,9 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
+use Illuminate\Http\Request;
+use Illuminate\Support\MessageBag;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SubscribeSupplyController extends AdminController{
     /**
@@ -81,11 +86,47 @@ class SubscribeSupplyController extends AdminController{
                        });;
                }));
     }
-    public function edit($id,Content $content){
-        return $content->header('上传供货验收图片')
-            ->description('上传')
-            ->breadcrumb(['text'=>'上传供货验收图片'])
-            ->body($this->form()->edit($id));
+
+    /**
+     * 预约记录导入
+     * @param Content $content
+     * @return Content
+     */
+    public function import(Content $content){
+        $content->header('预约记录导入');
+        $content->description('导入数据');
+        $content->breadcrumb(
+            ['text' => '预约记录', 'url' => '/subscribe/list'],
+            ['text' => '导入数据']
+        );
+        $form=new \Encore\Admin\Widgets\Form();
+        $form->action(route('subscribe.import.post'));
+        $form->file('importFile','Excel预约记录文件：')->required()->rules('mimes:xlsx')->help('请按给定的Excel格式文件上传');
+        $content->body('<div class="box box-info">'.$form->render().'</div>');
+        return $content;
+    }
+    public function importPost(Request $request){
+        try{
+            $file=$request->file('importFile');
+            if(!$file->isValid()){
+                throw new \Exception('上传错误,请重新上传！');
+            }
+            if($file->getClientOriginalExtension()!='xlsx'){
+                throw new \Exception('请上传Execl文件');
+            }
+
+            Excel::import(new SubscribeSupplyImport(),$file);
+            admin_toastr('导入成功', 'success',['timeOut'=>1000]);
+            return redirect('/admin/subscribe/list');
+        }catch (\Exception $e){
+            $message=[
+                'title'=>'错误',
+                'message'=>$e->getMessage(),
+            ];
+            $error=new MessageBag($message);
+            return back()->with(compact('error'));
+        }
+
     }
     protected function grid(){
         $grid=new Grid(new SubscribeSupply);
@@ -116,6 +157,9 @@ class SubscribeSupplyController extends AdminController{
         $grid->actions(function ($actions) {
             $actions->disableEdit();
 
+        });
+        $grid->tools(function ($tools) {
+            $tools->append(new SubSupplyimport());
         });
         $grid->filter(function($filter){
             // 去掉默认的id过滤器

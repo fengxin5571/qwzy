@@ -111,11 +111,11 @@ Route::group([
         $router->delete('goods/{id}','SubscribeGoodController@destroy');
         //供货记录
         $router->get('list','SubscribeSupplyController@index');
+        //导入预约记录
+        $router->get('import','SubscribeSupplyController@import')->name('subscribe.import');
+        $router->post('import','SubscribeSupplyController@importPost')->name('subscribe.import.post');
         //供货记录查看
         $router->get('list/{id}','SubscribeSupplyController@show');
-        //上传供货图片
-        $router->get('list/{id}/edit','SubscribeSupplyController@edit');
-        $router->put('list/{id}','SubscribeSupplyController@update');
         //删除供货记录
         $router->delete('/list/{id}','SubscribeSupplyController@destroy');
         //预约黑名单
