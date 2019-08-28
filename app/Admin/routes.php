@@ -132,6 +132,20 @@ Route::group([
         $router->post('/black/car/list','CarBlackListController@store');
         //删除车牌黑名单
         $router->delete('/black/car/list/{id}','CarBlackListController@destroy');
+
+    });
+    //车辆排队
+    $router->group(['prefix'=>'queue'],function ($router){
+        //排队设置
+        $router->get('setting','QueueSettingController@index');
+        //新增规则
+        $router->get('setting/create','QueueSettingController@create');
+        $router->post('setting','QueueSettingController@store');
+        //编辑规则
+        $router->get('setting/{id}/edit','QueueSettingController@edit');
+        $router->put('setting/{id}','QueueSettingController@update');
+        //删除规则
+        $router->delete('setting/{id}','QueueSettingController@destroy');
     });
     //系统设置
     $router->get('settings','FormController@setting');
