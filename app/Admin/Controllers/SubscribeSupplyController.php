@@ -62,9 +62,7 @@ class SubscribeSupplyController extends AdminController{
                   $show->unit_transport('运输单位：');
                   $show->delivery_weight('送货重量：');
                   $show->paper_number('废纸件数：');
-                  $show->sub_time('供货时间：')->as(function($sub_time){
-                      return date('Y-m-d H:i:s',$sub_time);
-                  });
+                  $show->sub_time('供货时间：');
                   $show->sub_code('取卡码：');
                   $show->expire_time('验证码过期时间：')->as(function($expire_time){
                        return date('Y-m-d H:i:s',$expire_time);
@@ -104,9 +102,7 @@ class SubscribeSupplyController extends AdminController{
         })->label();
         $grid->column('sub_type','预约类型')->using(['1'=>'临时','2'=>'供货商']);
         $grid->column('sub_code','取卡码')->width(89);
-        $grid->column('sub_time','预约时间')->display(function ($sub_time){
-            return date('Y-m-d H:i:s',$sub_time);
-        })->sortable()->width(150);
+        $grid->column('sub_time','预约时间')->sortable()->width(150);
         $grid->column('expire_time','验证码过期时间')->display(function ($expire_time){
             return date('Y-m-d H:i:s',$expire_time);
         })->width(150);

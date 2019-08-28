@@ -32,7 +32,7 @@ class SubscribeSupply extends Eloquent
 
 	protected $casts = [
 		'sub_type' => 'int',
-		'sub_time' => 'int',
+		'sub_time' => 'date:Y-m-d H:i:s',
 		'sub_code' => 'int',
 		'status' => 'int',
         'supplier_id'=>'int',

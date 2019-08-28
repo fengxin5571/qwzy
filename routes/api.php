@@ -45,6 +45,10 @@ $api->version('v1',[
             $api->post('loginout','SupplierController@loginout');
             //我的通知
             $api->get('notice','SupplierController@notice');
+            //供货商预约进度
+            $api->get('progress','SupplierController@progress');
+            //供货商预约进度详情
+            $api->get('progress/show','SupplierController@progressDetails');
         });
     });
     //企业通知

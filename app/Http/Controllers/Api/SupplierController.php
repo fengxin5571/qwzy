@@ -8,6 +8,7 @@
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Model\Notice;
+use App\Model\SubscribeSupply;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 class SupplierController extends Controller{
@@ -84,5 +85,30 @@ class SupplierController extends Controller{
             ->get(['id','title','content','add_time']);
         $data['count']=$data['list']->count();
         return $this->successResponse($data);
+    }
+
+    /**
+     * 供货商预约进度
+     * @param Request $request
+     * @return mixed
+     */
+    public function progress(Request $request){
+        $data['count']=SubscribeSupply::where('supplier_id',$this->user->id)->count();
+        $data['list'] =SubscribeSupply::where('supplier_id',$this->user->id)->orderBy('sub_time','desc')->forPage($request->input('page',1),$request->input('limit',15))
+            ->get(['id','shipper_name','goods_name','sub_code','sub_time','status']);
+        return $this->successResponse($data);
+    }
+    /**
+     * 预约进度详情
+     * @param Request $request
+     * @return mixed
+     */
+    public function progressDetails(Request $request){
+        $id=$request->input('id');
+        $subinfo=SubscribeSupply::find($id);
+        if(!$id||!$subinfo){
+            return $this->response->error('id为空或信息不存在',$this->forbidden_code);
+        }
+        return $this->successResponse($subinfo);
     }
 }
