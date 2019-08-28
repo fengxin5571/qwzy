@@ -101,7 +101,8 @@ class SubscribeSupplyController extends AdminController{
         );
         $form=new \Encore\Admin\Widgets\Form();
         $form->action(route('subscribe.import.post'));
-        $form->file('importFile','Excel预约记录文件：')->required()->rules('mimes:xlsx')->help('请按给定的Excel格式文件上传');
+        $form->file('importFile','Excel预约记录文件：')->required()->rules('mimes:xlsx')
+            ->help('请按给定的Excel格式文件上传，下载格式文件点击这里<a href="/storage/Excel/123.xlsx" download="123.xlsx" target="_blank">Excel格式文件</a>');
         $content->body('<div class="box box-info">'.$form->render().'</div>');
         return $content;
     }
