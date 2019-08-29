@@ -33,6 +33,8 @@ Route::group([
         //上传供货图片
         $router->get('/supply/list/{id}/edit','SupSupplyController@edit');
         $router->put('/supply/list/{id}','SupSupplyController@update');
+        //删除供货记录
+        $router->delete('/supply/list/{id}','SupSupplyController@destroy');
     });
     //资讯分类
     $router->group(['prefix'=>'articlecategory'],function($router){
