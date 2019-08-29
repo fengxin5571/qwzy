@@ -20,9 +20,10 @@ class SubscribeSupplyImport implements ToCollection,WithHeadingRow,WithBatchInse
     */
     public function collection(Collection $rows)
     {
-        $data=[];
+
         foreach ($rows as $row)
         {
+            $data=[];
             $existsData=SubscribeSupply::where([
                 'mobile'=>(int)$row['司机手机号'],
                 'status'=>0,
