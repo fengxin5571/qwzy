@@ -26,6 +26,13 @@ Route::group([
         $router->post('/{id}/success','SupplierController@success');
         //审核拒绝
         $router->post('/{id}/refuse','SupplierController@refuse');
+        //供货商供货记录
+        $router->get('/supply/list','SupSupplyController@index');
+        //查看供货商供货记录
+        $router->get('/supply/list/{id}','SupSupplyController@show');
+        //上传供货图片
+        $router->get('/supply/list/{id}/edit','SupSupplyController@edit');
+        $router->put('/supply/list/{id}','SupSupplyController@update');
     });
     //资讯分类
     $router->group(['prefix'=>'articlecategory'],function($router){
@@ -147,6 +154,7 @@ Route::group([
         //删除规则
         $router->delete('setting/{id}','QueueSettingController@destroy');
     });
+
     //系统设置
     $router->get('settings','FormController@setting');
     //清除系统缓存
