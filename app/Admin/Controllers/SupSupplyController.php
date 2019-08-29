@@ -91,7 +91,7 @@ class SupSupplyController extends AdminController{
     }
     protected function form(){
         $form=new Form(new SupSupply());
-        $form->multipleImage('sub_imgs','供货图片')->uniqueName()
+        $form->multipleImage('sub_imgs','供货图片')->uniqueName()->removable()
              ->rules('mimes:jpeg,bmp,png')->help('图片大小不能超过800k');
         $form->saving(function(Form $form){
             if(request()->file('sub_imgs')){
