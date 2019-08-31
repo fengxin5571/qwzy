@@ -115,7 +115,7 @@ class SubscribeController extends Controller{
             $code=$this->makeRandCode();
             $data=[
                 'driver_name'=>$request->input('driver_name'),
-                'car_number' =>$request->input('car_number'),
+                'car_number' =>strtoupper($request->input('car_number')),
                 'mobile'     =>$request->input('mobile'),
                 'goods_name' =>implode(',',SubscribeGoods::whereIn('id',explode(',',$request->input('goods_name')))->pluck('goods_name')->toArray()),
                 'sub_time'   =>time(),
@@ -211,7 +211,7 @@ class SubscribeController extends Controller{
             $data=[
                 'driver_name'=>$request->input('driver_name'),
                 'shipper_name'=>$supplier->shipper_name,
-                'car_number' =>$request->input('car_number'),
+                'car_number' =>strtoupper($request->input('car_number')),
                 'mobile'     =>$request->input('mobile'),
                 'goods_name' =>implode(',',SubscribeGoods::whereIn('id',explode(',',$request->input('goods_name')))->pluck('goods_name')->toArray()),
                 'sub_time'   =>time(),
