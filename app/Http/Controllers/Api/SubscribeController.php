@@ -231,7 +231,6 @@ class SubscribeController extends Controller{
                 'paper_number'  =>$request->input('paper_number'),
                 'delivery_weight'=>$request->input('delivery_weight')?:0.00,
             ];
-            dd($data);
             if(!$supply=SubscribeSupply::create($data)){
                 throw new \Exception('预约失败');
             }
