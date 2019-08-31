@@ -129,7 +129,7 @@ class SubscribeController extends Controller{
                 'unit_name'   =>$request->input('unit_name'),
                 'unit_transport'=>$request->input('unit_transport'),
                 'paper_number'  =>$request->input('paper_number'),
-                'delivery_weight'=>$request->input('delivery_weight',0.00),
+                'delivery_weight'=>$request->input('delivery_weight')?:0.00,
             ];
             if(!$supply=SubscribeSupply::create($data)){
                 throw new \Exception('预约失败');
@@ -229,8 +229,9 @@ class SubscribeController extends Controller{
                 'unit_name'   =>$request->input('unit_name'),
                 'unit_transport'=>$request->input('unit_transport'),
                 'paper_number'  =>$request->input('paper_number'),
-                'delivery_weight'=>$request->input('delivery_weight',0.00),
+                'delivery_weight'=>$request->input('delivery_weight')?:0.00,
             ];
+            dd($data);
             if(!$supply=SubscribeSupply::create($data)){
                 throw new \Exception('预约失败');
             }
