@@ -60,7 +60,8 @@ class SubscribeSupplyImport implements ToCollection,WithHeadingRow,WithBatchInse
                 'supplier_id'   =>$row['供货商id']?:0,
                 'sub_time'      =>time(),
                 'sub_code'      =>$this->makeRandCode(),
-                'expire_time'   =>time()+config('expire_time')*60*60
+                'expire_time'   =>time()+config('expire_time')*60*60,
+                'people_num'    =>$row['进场人数']?:0,
             ]);
         }
     }
