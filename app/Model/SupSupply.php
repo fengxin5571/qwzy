@@ -48,6 +48,7 @@ class SupSupply extends Eloquent
 		'goods_name',
 		'goods_level',
 		'car_number',
+        'people_num',
 		'mobile',
 		'direction',
 		'weight',

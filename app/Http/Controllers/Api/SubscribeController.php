@@ -75,6 +75,8 @@ class SubscribeController extends Controller{
             'unit_transport.required'=>'运输单位不能为空',
             'paper_number.required'=>'废纸件数不能为空',
             'paper_number.numeric'=>'废纸件数必须为数字',
+            'people_num.required'=>'进场人数不能为空',
+            'people_num.numeric' =>'进场人数必须是数字'
         ];
         $validator=Validator::make($request->all(),[
             'driver_name'=>'required',
@@ -103,7 +105,8 @@ class SubscribeController extends Controller{
             'channel'     =>'required',
             'unit_name'   =>'required',
             'unit_transport'=>'required',
-            'paper_number'  =>'required|numeric'
+            'paper_number'  =>'required|numeric',
+            'people_num'    =>'required|numeric'
         ],$messages);
         if($validator->fails()){
             return $this->response->error($validator->errors()->first(),$this->forbidden_code);
@@ -130,6 +133,7 @@ class SubscribeController extends Controller{
                 'unit_transport'=>$request->input('unit_transport'),
                 'paper_number'  =>$request->input('paper_number'),
                 'delivery_weight'=>$request->input('delivery_weight')?:0.00,
+                'people_num'     =>$request->input('people_num',0),
             ];
             if(!$supply=SubscribeSupply::create($data)){
                 throw new \Exception('预约失败');
@@ -165,6 +169,8 @@ class SubscribeController extends Controller{
             'unit_transport.required'=>'运输单位不能为空',
             'paper_number.required'=>'废纸件数不能为空',
             'paper_number.numeric'=>'废纸件数必须为数字',
+            'people_num.required'=>'进场人数不能为空',
+            'people_num.numeric' =>'进场人数必须是数字'
         ];
         $validator=Validator::make($request->all(),[
             'driver_name'=>'required',
@@ -193,7 +199,8 @@ class SubscribeController extends Controller{
             'channel'     =>'required',
             'unit_name'   =>'required',
             'unit_transport'=>'required',
-            'paper_number'  =>'required|numeric'
+            'paper_number'  =>'required|numeric',
+            'people_num'    =>'required|numeric'
 
         ],$messages);
         if($validator->fails()){
@@ -230,6 +237,7 @@ class SubscribeController extends Controller{
                 'unit_transport'=>$request->input('unit_transport'),
                 'paper_number'  =>$request->input('paper_number'),
                 'delivery_weight'=>$request->input('delivery_weight')?:0.00,
+                'people_num'     =>$request->input('people_num',0),
             ];
             if(!$supply=SubscribeSupply::create($data)){
                 throw new \Exception('预约失败');
