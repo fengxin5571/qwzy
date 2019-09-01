@@ -67,6 +67,7 @@ class SubscribeSupplyController extends AdminController{
                   $show->unit_transport('运输单位：');
                   $show->delivery_weight('送货重量：');
                   $show->paper_number('废纸件数：');
+                  $show->people_num('进场人数：');
                   $show->sub_time('供货时间：');
                   $show->sub_code('取卡码：');
                   $show->expire_time('验证码过期时间：')->as(function($expire_time){

@@ -50,6 +50,7 @@ class SubscribeSupply extends Eloquent
         'unit_name',
         'unit_transport',
         'delivery_weight',
+        'people_num',
         'paper_number',
 		'mobile',
 		'sub_type',
