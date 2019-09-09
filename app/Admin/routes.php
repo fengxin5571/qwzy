@@ -155,6 +155,10 @@ Route::group([
         $router->put('setting/{id}','QueueSettingController@update');
         //删除规则
         $router->delete('setting/{id}','QueueSettingController@destroy');
+        //车辆排队
+        $router->get('/','QueueController@index');
+        //排队调整
+        $router->post('sortable/{id}','QueueController@modify');
     });
 
     //系统设置

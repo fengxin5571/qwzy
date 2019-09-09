@@ -7,6 +7,10 @@
 
 namespace App\Model;
 
+use Encore\Admin\Traits\AdminBuilder;
+use Encore\Admin\Traits\ModelTree;
+use James\Sortable\Sortable;
+use James\Sortable\SortableTrait;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
@@ -24,12 +28,16 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class TruckQueue extends Eloquent
+class TruckQueue extends Eloquent implements Sortable
 {
+    use SortableTrait;
 	protected $table = 'truck_queue';
 	private $statusName=['1'=>'取卡','2'=>'等待','3'=>'过磅','4'=>'出厂','5'=>'超时等待处理'];
 	public $timestamps = false;
-
+    public $sortable = [
+        'sort_field' => 'sequence',       // 排序字段
+        'sort_when_creating' => false,   // 新增是否自增，默认自增
+    ];
 	protected $casts = [
 		'Id_queue_setting' => 'int',
 		'add_time' => 'int',
@@ -43,7 +51,8 @@ class TruckQueue extends Eloquent
 		'add_time',
 		'sequence',
 		'status',
-		'IDCard'
+		'IDCard',
+        'truckname'
 	];
     public function getStatusName($status){
         return $this->statusName[$status];

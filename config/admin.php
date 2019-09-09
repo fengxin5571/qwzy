@@ -22,7 +22,7 @@ return [
     | `img` tag, eg '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo' => '<img src="/vendor/laravel-admin/WechatIMG3.png" alt="强伟纸业" title="强伟纸业" width="120">',
+    'logo' => '<b>强伟 纸业</b>',
 
     /*
     |--------------------------------------------------------------------------
