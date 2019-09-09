@@ -8,6 +8,8 @@
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Model\CarQueue;
+use App\Model\QueueSetting;
+use App\Model\TruckQueue;
 use App\Services\SplDoublyLinkedList;
 use Illuminate\Http\Request;
 
@@ -20,12 +22,29 @@ class  QueueController extends Controller{
         $this->doubly->setIteratorMode(SplDoublyLinkedList::IT_MODE_FIFO | SplDoublyLinkedList::IT_MODE_KEEP);
         $this->doubly->rewind();
     }
+
+    /**
+     * 排队货品分类
+     * @return mixed
+     */
+    public function queueType(){
+        $data=QueueSetting::all(['id','alias']);
+        if(!$data){
+            $data[]=['id'=>0,'alias'=>'全部'];
+        }
+        return $this->successResponse($data);
+    }
     /**
      * 排队看板
      * @return mixed
      */
     public function queue(Request $request){
-        $car_queue=CarQueue::all();
+        $type=$request->input('type');
+        $where=[];
+        if($type){
+            $where['Id_queue_setting']=$type;
+        }
+        $car_queue=TruckQueue::where($where)->orderBy('sequence')->get(['id','truckname','Id_goods','sequence','status','driver_name','Id_queue_setting']);
         $this->setQueue($car_queue);
         return $this->successResponse($this->list);
     }
@@ -36,8 +55,7 @@ class  QueueController extends Controller{
         });
         foreach($this->doubly as $key=>$value)
         {
-            $merge_array=array_merge(['sortNum'=>$key+1],$value->toArray());
-            $this->list[$key]=$merge_array;
+            $this->list[$key]=$value;
         }
 
     }

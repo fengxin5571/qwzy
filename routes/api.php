@@ -79,6 +79,8 @@ $api->version('v1',[
         //供货商供货
         $api->get('sup','SubscribeController@supplier')->middleware('authToken');
     });
+    //排队货品分类
+    $api->get('queue/type','QueueController@queueType');
     //车辆排队
     $api->get('queue','QueueController@queue');
 
