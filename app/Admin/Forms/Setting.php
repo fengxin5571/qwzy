@@ -40,6 +40,7 @@ class Setting extends Form
     {
        //$this->radio('register_pay','注册付费:')->options(['0'=>'关闭','1'=>'打开']);
        $this->text('hot_search','企业通知热门搜索')->help('多个词请用,号分割');
+
     }
 
     /**

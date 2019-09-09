@@ -26,10 +26,10 @@ class  QueueController extends Controller{
      */
     public function queue(Request $request){
         $car_queue=CarQueue::all();
-        $this->setQueue($car_queue,$request->input('page',1),$request->input('limit',15));
+        $this->setQueue($car_queue);
         return $this->successResponse($this->list);
     }
-    protected function setQueue($car_queues,$page=1,$limit=15){
+    protected function setQueue($car_queues){
         $car_queues->each(function($item,$key) {
             $item->statusName=$item->getStatusName($item->status);
             $this->doubly->push($item);
@@ -39,7 +39,6 @@ class  QueueController extends Controller{
             $merge_array=array_merge(['sortNum'=>$key+1],$value->toArray());
             $this->list[$key]=$merge_array;
         }
-        $start=($page-1)*$limit;
-        $this->list=array_slice($this->list,$start,$limit,true);
+
     }
 }

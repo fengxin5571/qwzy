@@ -82,7 +82,7 @@ class SupplierController extends Controller{
             return $this->response->error('通知类型id为空',$this->forbidden_code);
         }
         $data['list']=Notice::where('type',$type)->forPage($request->input('page',1),$request->input('limit',15))
-            ->get(['id','title','content','add_time']);
+            ->orderBy('add_time','desc')->get(['id','title','content','add_time']);
         $data['count']=$data['list']->count();
         return $this->successResponse($data);
     }
