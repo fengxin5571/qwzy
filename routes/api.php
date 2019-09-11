@@ -34,6 +34,7 @@ $api->version('v1',[
         //获取小程序码
         $api->get('/getcode','AuthController@getCode');
 
+
         $api->group(['middleware'=>'authToken'],function ($api){
             //个人中心
             $api->get('my','SupplierController@my');
@@ -83,7 +84,8 @@ $api->version('v1',[
     $api->get('queue/type','QueueController@queueType');
     //车辆排队
     $api->get('queue','QueueController@queue');
-
+    //获取排队小程序码
+    $api->get('queue/getcode','AuthController@getQueueCode');
 });
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

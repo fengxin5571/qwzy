@@ -143,6 +143,7 @@ class AuthController extends Controller{
         $data['routine_openid']=$res['openid'];
         return $this->successResponse($data);
     }
+
     /**
      * 供应商配置
      * @return mixed
@@ -163,6 +164,26 @@ class AuthController extends Controller{
             }else{
                 $response=$this->app->app_code->get('pages/index/index');
                 $filename=$response->saveAs(storage_path('app/public').'/code','qwzycode.png');
+                $data['codeImg']=Storage::disk('public')->url('code/'.$filename);
+            }
+
+        }catch (\Exception $e){
+            return $this->response->error($e->getMessage(),$this->forbidden_code);
+        }
+        return $this->successResponse($data);
+    }
+
+    /**
+     * 获取排队小程序码
+     * @return mixed
+     */
+    public function getQueueCode(){
+        try{
+            if(Storage::disk('public')->exists('code/queuecode.png')){
+                $data['codeImg']=Storage::disk('public')->url('code/queuecode.png');
+            }else{
+                $response=$this->app->app_code->get('pages/carsQueue/index');
+                $filename=$response->saveAs(storage_path('app/public').'/code','queuecode.png');
                 $data['codeImg']=Storage::disk('public')->url('code/'.$filename);
             }
 
