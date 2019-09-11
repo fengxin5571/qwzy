@@ -9,6 +9,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Model\Notice;
 use App\Model\SubscribeSupply;
+use App\Model\SupSupply;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 class SupplierController extends Controller{
@@ -81,7 +82,7 @@ class SupplierController extends Controller{
         if(!$type){
             return $this->response->error('通知类型id为空',$this->forbidden_code);
         }
-        $data['list']=Notice::where('type',$type)->forPage($request->input('page',1),$request->input('limit',15))
+        $data['list']=Notice::where(['type'=>$type,'supplier_id'=>$this->user->id])->forPage($request->input('page',1),$request->input('limit',15))
             ->orderBy('add_time','desc')->get(['id','title','content','add_time']);
         $data['count']=$data['list']->count();
         return $this->successResponse($data);
@@ -110,5 +111,16 @@ class SupplierController extends Controller{
             return $this->response->error('id为空或信息不存在',$this->forbidden_code);
         }
         return $this->successResponse($subinfo);
+    }
+
+    /**
+     * 我的供货记录
+     * @param Request $request
+     * @param SupSupply $supply
+     * @return mixed
+     */
+    public function mySupply(Request $request,SupSupply $supply){
+        $data=$supply->getList($request,$this->user);
+        return $this->successResponse($data);
     }
 }

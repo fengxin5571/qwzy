@@ -73,4 +73,32 @@ class SupSupply extends Eloquent
 	public function supplier(){
 	    return $this->hasOne(Supplier::class,'id','supplier_id');
     }
+    public function getList($request,$user){
+        $where['supplier_id']=$user->id;
+        if($request->input('time')&&$request->input('time')!='all'){
+            if($request->input('time')=='year'){
+                $start=strtotime(date("Y",time())."-1"."-1");
+                $end=strtotime(date("Y",time())."-12"."-31");
+            }elseif ($request->input('time')=='month'){
+                $start=strtotime(date('Y')."-".date('m')."-1");
+                $end=strtotime(date('Y')."-".date('m')."-".date('t'));
+            }elseif ($request->input('time')=='today'){
+                $start=strtotime(date("Y-m-d"),time());
+                $end=strtotime(date("Y-m-d"),time())+60*60*24;
+            }elseif ($request->input('time')=='week'){
+                $start=strtotime(date('Y-m-d', strtotime("this week Monday", time())));
+                $end=strtotime(date('Y-m-d', strtotime("this week Sunday", time()))) + 24 * 3600 - 1;
+            }
+            $where[]=['add_time','>=',$start];
+            $where[]=['add_time','<=',$end];
+        }
+        if($request->input('good_id')){
+            $goods_name=SubscribeGoods::where('id',$request->input('good_id'))->value('goods_name');
+            $where[]=array('goods_name','like',"%{$goods_name}%");
+        }
+        $data['list'] = $this->where($where)
+            ->forPage($request->input('page',1),$request->input('limit',10))->get(['id','driver_name','goods_name','car_number','add_time','supplier_id']);
+        $data['count']=$this->where($where)->count();
+        return $data;
+    }
 }

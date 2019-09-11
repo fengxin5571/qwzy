@@ -50,6 +50,8 @@ $api->version('v1',[
             $api->get('progress','SupplierController@progress');
             //供货商预约进度详情
             $api->get('progress/show','SupplierController@progressDetails');
+            //我的供货记录
+            $api->get('/my/supply','SupplierController@mySupply');
         });
     });
     //企业通知
