@@ -41,4 +41,7 @@ class SubscribeGoods extends Eloquent
 	    $where=$type==1?['is_temp'=>'1']:['is_sup'=>'1'];
 	    return self::where($where)->get($fields);
     }
+    public function  queueSetting(){
+	    return $this->hasOne(QueueGoodsRelation::class,'s_gid','id');
+    }
 }

@@ -61,6 +61,7 @@ class SupSupply extends Eloquent
 	];
     public function setSubImgsAttribute($image)
     {
+
         if (is_array($image)) {
             $this->attributes['sub_imgs'] = json_encode($image);
         }

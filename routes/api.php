@@ -52,6 +52,8 @@ $api->version('v1',[
             $api->get('progress/show','SupplierController@progressDetails');
             //我的供货记录
             $api->get('/my/supply','SupplierController@mySupply');
+            //供货记录详情
+            $api->get('/my/supply/info','SupplierController@supplyDetails');
         });
     });
     //企业通知

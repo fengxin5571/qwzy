@@ -72,7 +72,8 @@ EOT;
         $form=new Form(new QueueSetting());
         $form->text('alias','配置别名')->required()->help('用于排队看板的货品分类筛选');
         $form->number('car_num','可放行车辆数')->min(0)->required()->help('设置N辆车之后进入到排队等待')->placeholder('车辆数')->default(0);
-        $form->listbox('goods','货品组合')->required()->options(SubscribeGoods::all()->pluck('goods_name','id'));
+        $good_list=SubscribeGoods::doesntHave('queueSetting')->pluck('goods_name','id');
+        $form->listbox('goods','货品组合')->required()->options($good_list);
         return $form;
     }
 }

@@ -123,4 +123,20 @@ class SupplierController extends Controller{
         $data=$supply->getList($request,$this->user);
         return $this->successResponse($data);
     }
+    /**
+     * 我的供货记录详情
+     * @param Request $request
+     * @return mixed
+     */
+    public function supplyDetails(Request $request){
+        $id=$request->input('id');
+        $supply_info=SupSupply::find($id)->toArray();
+        if(!$id||!$supply_info){
+            return $this->response->error('id为空或记录不存在',$this->forbidden_code);
+        }
+        foreach ($supply_info['sub_imgs'] as $k=>$img){
+           $supply_info['sub_imgs'][$k]=config('filesystems.disks.admin.url').'/'.$img;
+        }
+        return $this->successResponse($supply_info);
+    }
 }
