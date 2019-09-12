@@ -50,8 +50,8 @@ class QueueSettingController extends AdminController{
     protected function grid(){
         $grid=new Grid(new QueueSetting());
         $grid->column('id',"ID")->sortable();
-        $grid->column('alias','配置别名');
-        $grid->column('car_num','放行车辆数');
+        $grid->column('alias','配置别名')->editable();
+        $grid->column('car_num','放行车辆数')->editable();
         $grid->column('goods','货品组合')->display(function ($goods){
             $goods = array_map(function ($good) {
                 return <<<EOT
@@ -65,15 +65,17 @@ EOT;
 
             return join('&nbsp;', $goods);
         });
-
+        $grid->actions(function ($actions) {
+            $actions->disableView();
+            $actions->disableEdit();
+        });
         return $grid;
     }
     protected function form(){
         $form=new Form(new QueueSetting());
         $form->text('alias','配置别名')->required()->help('用于排队看板的货品分类筛选');
         $form->number('car_num','可放行车辆数')->min(0)->required()->help('设置N辆车之后进入到排队等待')->placeholder('车辆数')->default(0);
-        $good_list=SubscribeGoods::doesntHave('queueSetting')->pluck('goods_name','id');
-        $form->listbox('goods','货品组合')->required()->options($good_list);
+        $form->listbox('goods','货品组合')->required()->options(SubscribeGoods::doesntHave('queueSetting')->pluck('goods_name','id'));
         return $form;
     }
 }
