@@ -8,6 +8,7 @@
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Model\Supplier;
+use App\Model\TruckQueue;
 use EasyWeChat\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -190,6 +191,27 @@ class AuthController extends Controller{
         }catch (\Exception $e){
             return $this->response->error($e->getMessage(),$this->forbidden_code);
         }
+        return $this->successResponse($data);
+    }
+
+    /**
+     * 获取排队信息
+     * @return mixed
+     */
+    public function getQueueMessage(){
+        $queue=TruckQueue::all();
+        $wait=$weight=$weighing=0;
+        $queue->each(function ($item,$key) use(&$wait,&$weight,&$weighing) {
+            if($item->status==1){
+                $wait=$wait+1;
+            }elseif ($item->status==2){
+                $weight=$weight+1;
+            }elseif($item->status==3){
+                $weighing=$weighing+1;
+            }
+
+        });
+        $data['message']="当前有{$wait}辆车排队，{$weight}辆车等待上磅，{$weighing}辆车正在过磅。";
         return $this->successResponse($data);
     }
 }

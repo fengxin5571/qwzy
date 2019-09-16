@@ -90,6 +90,8 @@ $api->version('v1',[
     $api->get('queue','QueueController@queue');
     //获取排队小程序码
     $api->get('queue/getcode','AuthController@getQueueCode');
+    //获取排队信息
+    $api->get('queue/msg','AuthController@getQueueMessage');
 });
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

@@ -32,7 +32,7 @@ class TruckQueue extends Eloquent implements Sortable
 {
     use SortableTrait;
 	protected $table = 'truck_queue';
-	private $statusName=['1'=>'等待过磅','2'=>'等待上磅','3'=>'过磅','4'=>'出厂','5'=>'超时等待处理'];
+	private $statusName=['1'=>'等待过磅','2'=>'等待上磅','3'=>'正在过磅','4'=>'出厂','5'=>'超时等待处理'];
 	public $timestamps = false;
     public $sortable = [
         'sort_field' => 'sequence',       // 排序字段

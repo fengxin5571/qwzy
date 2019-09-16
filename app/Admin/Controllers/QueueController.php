@@ -41,10 +41,10 @@ class  QueueController extends AdminController{
         $grid->column('truckname','车牌')->label('primary');
         $grid->column('driver_name','司机姓名');
         $grid->column('Id_goods','供货货品');
-        $grid->column('status','排队状态')->using(['1'=>'取卡','2'=>'等待','3'=>'过磅','4'=>'出厂','5'=>'超时等待处理']);
+        $grid->column('status','排队状态')->using(['1'=>'等待过磅','2'=>'等待上磅','3'=>'过磅','4'=>'出厂','5'=>'超时等待处理']);
         $grid->actions(function ($actions) {
             // append一个操作
-            if($actions->row->status==2||$actions->row->status==5){
+            if($actions->row->status==1||$actions->row->status==5){
                 $actions->prepend(new QueueButton($actions->getKey()));
             };
 
