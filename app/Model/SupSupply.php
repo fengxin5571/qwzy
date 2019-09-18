@@ -98,7 +98,7 @@ class SupSupply extends Eloquent
             $where[]=array('goods_name','like',"%{$goods_name}%");
         }
         $data['list'] = $this->where($where)
-            ->forPage($request->input('page',1),$request->input('limit',10))->get(['id','driver_name','goods_name','car_number','add_time','supplier_id']);
+            ->forPage($request->input('page',1),$request->input('limit',10))->orderBy('add_time','desc')->get(['id','driver_name','goods_name','car_number','add_time','supplier_id']);
         $data['count']=$this->where($where)->count();
         return $data;
     }
