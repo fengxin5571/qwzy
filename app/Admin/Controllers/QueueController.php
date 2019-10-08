@@ -36,6 +36,7 @@ class  QueueController extends AdminController{
     }
     protected function grid(){
         $grid=new Grid(new TruckQueue());
+        $grid->model()->orderBy('sequence');
         $grid->column('id','ID');
         $grid->column('sequence','排名')->label('info');
         $grid->column('truckname','车牌')->label('primary');
