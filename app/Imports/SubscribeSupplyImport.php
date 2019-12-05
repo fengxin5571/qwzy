@@ -20,7 +20,6 @@ class SubscribeSupplyImport implements ToCollection,WithHeadingRow,WithBatchInse
     */
     public function collection(Collection $rows)
     {
-
         foreach ($rows as $row)
         {
             $data=[];

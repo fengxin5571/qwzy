@@ -20,18 +20,15 @@ class  QueueController extends AdminController{
                ->breadcrumb(['text'=>'排队看板'])
                ->body($this->grid());
     }
+    /**
+     * 排队调整
+     * @param $id
+     * @param Request $request
+     * @return array
+     */
     public function modify($id,Request $request){
         $sortable=$request->input('sortable');
-        if($sortable=='top'){//置顶
-
-        }elseif ($sortable=='up'){//
-
-        }elseif ($sortable=='down'){//下移
-
-        }elseif ($sortable=='end'){//置尾
-
-        }
-
+        TruckQueue::find($id)->move($sortable);
         return ['status' => 1, 'message' => '操作成功'];
     }
     protected function grid(){
