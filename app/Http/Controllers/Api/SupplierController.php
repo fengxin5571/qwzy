@@ -130,12 +130,15 @@ class SupplierController extends Controller{
      */
     public function supplyDetails(Request $request){
         $id=$request->input('id');
-        $supply_info=SupSupply::find($id)->toArray();
+        $supply_info=SupSupply::find($id);
         if(!$id||!$supply_info){
             return $this->response->error('id为空或记录不存在',$this->forbidden_code);
         }
-        foreach ($supply_info['sub_imgs'] as $k=>$img){
-           $supply_info['sub_imgs'][$k]=config('filesystems.disks.admin.url').'/'.$img;
+        $supply_info=$supply_info->toArray();
+        if(is_array($supply_info['sub_imgs'])){
+            foreach ($supply_info['sub_imgs'] as $k=>$img){
+                $supply_info['sub_imgs'][$k]=config('filesystems.disks.admin.url').'/'.$img;
+            }
         }
         return $this->successResponse($supply_info);
     }
