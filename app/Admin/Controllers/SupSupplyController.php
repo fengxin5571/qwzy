@@ -57,7 +57,8 @@ class SupSupplyController extends AdminController{
                 $show->weight('货物总重：');
                 $show->price('单价：');
                 $show->Total('总额：');
-                $show->pct('扣率：');
+                $show->pct_other('扣杂：');
+                $show->pct_water('扣水：');
                 $show->add_time('供货时间：');
                 if($info->sub_imgs){
                     $show->field('sub_imgs')->carousel();
@@ -84,6 +85,9 @@ class SupSupplyController extends AdminController{
         $grid->column('Total','总额');
         $grid->column('add_time','供货时间')->sortable();
         $grid->disableCreateButton();
+        $grid->actions(function ($actions) {
+            $actions->disableView(false);
+        });
         $grid->filter(function($filter){
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
