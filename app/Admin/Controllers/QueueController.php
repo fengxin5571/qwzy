@@ -53,6 +53,14 @@ class  QueueController extends AdminController{
             // 去掉查看
             $actions->disableView();
         });
+        //去掉多选框
+        $grid->disableRowSelector();
+        $grid->tools(function ($tools) {
+            $tools->batch(function ($batch) {
+                //去掉批量删除
+                $batch->disableDelete();
+            });
+        });
         // 全部关闭
         $grid->disableCreateButton();
         $grid->disablePagination();
