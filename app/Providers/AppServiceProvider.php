@@ -40,6 +40,10 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('is_card',function($attribute, $value, $parameters, $validator){
             return !!preg_match('/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/',$value);
         });
+        //银行卡验证
+        Validator::extend('is_bank',function ($attribute, $value, $parameters, $validator){
+            return !!preg_match('/^[0-9]{16,19}$/',$value);
+        });
         $table = config('admin.extensions.config.table', 'admin_config');
         if (Schema::hasTable($table)) {
             Config::load();

@@ -41,16 +41,17 @@ class AuthController extends Controller{
             'mobile.unique'=>'此用户已经注册',
             'bank_address.required'=>'请输入银行卡开户行',
             'bank_code.required'=>'请输入银行卡号',
+            'bank_code.is_bank'=>'您输入的银行卡号不正确'
         );
         $validator=Validator::make($request->all(),[
             'shipper_name'=>'required',
             'mobile'=>['required','is_mobile',
                 Rule::unique('supplier')->where(function($query) use ($request){
-                    $query->where(['shipper_name'=>$request->input('shipper_name')]);
+                   // $query->where(['shipper_name'=>$request->input('shipper_name')]);
                 })
             ],
             'bank_address'=>'required',
-            'bank_code'=>'required',
+            'bank_code'=>'required|is_bank',
         ],$message);
         if($validator->fails()){
             return $this->response->error($validator->errors()->first(),$this->forbidden_code);
