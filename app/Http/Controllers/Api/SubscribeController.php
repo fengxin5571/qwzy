@@ -197,7 +197,7 @@ class SubscribeController extends Controller{
             'axle_number' =>'required|numeric',
             //'load_weight' =>'required|numeric',
             'channel'     =>'required',
-            'unit_name'   =>'required',
+            //'unit_name'   =>'required',
             //'unit_transport'=>'required',
             'paper_number'  =>'required|numeric',
             'people_num'    =>'required|numeric'
