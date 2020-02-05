@@ -39,9 +39,9 @@ class Sms extends Form
      */
     public function form()
     {
-        $this->datetime('expire_time','验证码过期时间(小时):')->format('H');
-        $this->datetime('take_time','过磅超时时间(小时):')->format('H');
-        $this->datetime('queue_weigh_time','排队超时时间(分钟):')->format('m');
+        $this->number('expire_time','验证码过期时间(小时):')->min(1);
+        $this->number('take_time','过磅超时时间(小时):')->min(1);
+        $this->number('queue_weigh_time','排队超时时间(分钟):')->min(1);
 //        $this->text('access_key_id','阿里云AccessKey ID');
 //        $this->text('access_key_secret','阿里云AccessKey Secret');
     }

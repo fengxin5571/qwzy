@@ -53,19 +53,19 @@ class SubscribeSupplyController extends AdminController{
                   $show->car_number('车牌号：');
                   $show->driver_name('司机姓名：');
 
-                  $show->mobile('手机号：');
+                  $show->mobile('司机手机号：');
                   $show->goods_name('供货货品：');
                   $show->sub_type('供货类型：')->as(function($sub_type){
                       return $sub_type==1?'临时供货':'供货商供货';
                    });
-                  $show->card_id('身份证号：');
+                  $show->card_id('司机身份证号：');
 
                   $show->axle_number('车轴数：');
-                  $show->load_weight('荷载重量：');
-                  $show->channel('运输来源：');
-                  $show->unit_name('供货单位：');
+                  //$show->load_weight('荷载重量：');
+                  $show->channel('发货地：');
+                  //$show->unit_name('供货单位：');
                   $show->unit_transport('运输单位：');
-                  $show->delivery_weight('送货重量：');
+                  //$show->delivery_weight('送货重量：');
                   $show->paper_number('废纸件数：');
                   $show->people_num('进场人数：');
                   $show->sub_time('供货时间：');
@@ -146,7 +146,7 @@ class SubscribeSupplyController extends AdminController{
         $grid->column('mobile','手机号')->display(function($mobile){
             return '<span style="color: #999;"><i class="fa fa-phone"></i> '.$mobile.'</span>';
         });
-        $grid->column('goods_name','货品名称')->display(function($goods_name){
+        $grid->column('goods_name','货物名称')->display(function($goods_name){
             return explode(',',$goods_name);
         })->label();
         $grid->column('sub_type','预约类型')->using(['1'=>'临时','2'=>'供货商']);

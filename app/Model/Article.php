@@ -82,7 +82,7 @@ class Article extends Eloquent
                 $query->where('tag_id',$request->input('tag_id'));
             }
 
-        })->forPage($request->input('page',1),$request->input('limit',10))->get(['id','c_id','title','description','add_time']);
+        })->forPage($request->input('page',1),$request->input('limit',10))->orderBy('add_time','desc')->get(['id','c_id','title','description','add_time']);
         $data['count']=$article->Onlie()->where($where)->whereHas('tags',function($query) use($request){
             if($request->input('tag_id')){
                 $query->where('tag_id',$request->input('tag_id'));
