@@ -138,6 +138,7 @@ class SubscribeSupplyController extends AdminController{
     }
     protected function grid(){
         $grid=new Grid(new SubscribeSupply);
+        $grid->model()->orderBy('sub_time','desc');
         $grid->column('car_number','车牌号')->label('primary');
         $grid->column('driver_name','司机姓名');
         $grid->column('shipper_name','货主名称')->display(function($shipper_name){

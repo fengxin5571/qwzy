@@ -53,6 +53,7 @@ class ArticleController extends AdminController{
     }
     public function grid(){
         $grid=new Grid(new Article);
+        $grid->model()->orderBy('add_time','desc');
         $grid->column('id', 'ID')->sortable();
         $grid->column('category','资讯分类')->display(function ($category){
             return $category['title'];

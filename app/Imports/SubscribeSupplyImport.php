@@ -48,7 +48,7 @@ class SubscribeSupplyImport implements ToCollection,WithHeadingRow,WithBatchInse
                 'driver_name' =>$row['司机姓名'],
                 'mobile'      =>(int)$row['司机手机号'],
                 'card_id'     =>$row['司机身份证号'],
-                'goods_name'  =>$row['货品名称'],
+                'goods_name'  =>$row['货物名称'],
                 'axle_number' =>$row['车轴数'],
                 //'load_weight' =>$row['荷载重量'],
                 'channel'     =>$row['发货地'],

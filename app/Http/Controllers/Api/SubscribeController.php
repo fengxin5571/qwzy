@@ -59,6 +59,7 @@ class SubscribeController extends Controller{
         $messages=[
             'driver_name.required'=>'司机姓名不能为空',
             'car_number.required'=>'车牌不能为空',
+            'car_number.is_car'=>'车牌号输入不正确',
             'mobile.required'=>'司机手机号不能为空',
             'mobile.unique'=>'此用户已经预约',
             'mobile.is_mobile'=>'手机格式不正确',
@@ -80,7 +81,7 @@ class SubscribeController extends Controller{
         ];
         $validator=Validator::make($request->all(),[
             'driver_name'=>'required',
-            'car_number' =>['required',function($attribute, $value, $fail) use($request){
+            'car_number' =>['required','is_car',function($attribute, $value, $fail) use($request){
                 if(CarBlacklist::where('car_number',$request->input('car_number'))->count()){
                     $fail('当前车辆涉嫌违规操作，已在黑名单中，请联系管理员');
                     return;
@@ -153,6 +154,7 @@ class SubscribeController extends Controller{
         $messages=[
             'driver_name.required'=>'司机姓名不能为空',
             'car_number.required'=>'车牌不能为空',
+            'car_number.is_car'=>'车牌号输入不正确',
             'mobile.required'=>'司机手机号不能为空',
             'mobile.unique'=>'此用户已经预约',
             'mobile.is_mobile'=>'手机格式不正确',
@@ -174,7 +176,7 @@ class SubscribeController extends Controller{
         ];
         $validator=Validator::make($request->all(),[
             'driver_name'=>'required',
-            'car_number' =>['required',function($attribute, $value, $fail) use($request){
+            'car_number' =>['required','is_car',function($attribute, $value, $fail) use($request){
                 if(CarBlacklist::where('car_number',$request->input('car_number'))->count()){
                     $fail('当前车辆涉嫌违规操作，已在黑名单中，请联系管理员');
                     return;

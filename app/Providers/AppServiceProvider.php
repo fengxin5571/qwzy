@@ -44,6 +44,15 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('is_bank',function ($attribute, $value, $parameters, $validator){
             return !!preg_match('/^[0-9]{16,19}$/',$value);
         });
+        //车牌号验证
+        Validator::extend('is_car',function ($attribute, $value, $parameters, $validator){
+            if(iconv_strlen($value,"UTF-8")==7){
+                return !!preg_match('/[京津冀晋蒙辽吉黑沪苏浙皖闽赣鲁豫鄂湘粤桂琼川贵云渝藏陕甘青宁新使]{1}[A-Z]{1}[0-9a-zA-Z]{5}$/u',$value);
+            }
+//            elseif (iconv_strlen($value,"UTF-8")==8){
+//                //return !!preg_match('/^[\u4e00-\u9fa5]{1}[a-hj-np-zA-HJ-NP-Z]{1}([0-9]{5}[d|f|D|F]|[d|f|D|F][a-hj-np-zA-HJ-NP-Z0-9][0-9]{4})$/',$value);
+//            }
+        });
         $table = config('admin.extensions.config.table', 'admin_config');
         if (Schema::hasTable($table)) {
             Config::load();
