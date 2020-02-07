@@ -212,7 +212,7 @@ return [
         /*
          * Only logging allowed methods in the list
          */
-        'allowed_methods' => ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE', 'PATCH'],
+        'allowed_methods' => ['HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE', 'PATCH'],
 
         /*
          * Routes that will not log to database.
@@ -222,6 +222,18 @@ return [
          */
         'except' => [
             'admin/auth/logs*',
+            'admin/auth/permissions*',
+            'admin/auth/roles*',
+            'admin/auth/users*'
+        ],
+        'column' =>[
+            'articletag'=>'资讯标签',
+            'article'   =>'资讯',
+            'axleNumber'=>'车轴数',
+            'goods'     =>'预约货物',
+            'black'     =>'黑名单',
+            'car'       =>'车牌',
+            'suppliers' =>'供货商'
         ],
     ],
 

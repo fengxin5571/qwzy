@@ -222,10 +222,13 @@ class SupplierController extends AdminController {
 
         $grid->disableColumnSelector();
         $grid->actions(function ($actions) {
-            // append一个操作
-            $actions->prepend(new SupplierButton1($actions->getKey()));
-            // prepend一个操作
-            $actions->prepend(new SupplierButton($actions->getKey()));
+            if($actions->row->status==0){
+                // append一个操作
+                $actions->prepend(new SupplierButton1($actions->getKey()));
+                // prepend一个操作
+                $actions->prepend(new SupplierButton($actions->getKey()));
+            }
+
         });
         $grid->disableExport(false);
         $grid->exporter(new SuppliersExports());
