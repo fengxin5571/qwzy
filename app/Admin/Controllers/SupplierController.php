@@ -8,6 +8,7 @@
 namespace App\Admin\Controllers;
 use App\Admin\Extensions\SupplierButton;
 use App\Admin\Extensions\SupplierButton1;
+use App\Exports\SuppliersExports;
 use App\Model\Supplier;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -218,14 +219,16 @@ class SupplierController extends AdminController {
             ]);
         });
         $grid->disableCreateButton();
+
         $grid->disableColumnSelector();
-        $grid->disableExport();
         $grid->actions(function ($actions) {
             // append一个操作
             $actions->prepend(new SupplierButton1($actions->getKey()));
             // prepend一个操作
             $actions->prepend(new SupplierButton($actions->getKey()));
         });
+        $grid->disableExport(false);
+        $grid->exporter(new SuppliersExports());
         $grid->paginate('15');
         return $grid;
     }
