@@ -67,15 +67,15 @@ class SubscribeController extends Controller{
             'card_id.is_card'=>'身份证号格式不正确',
             'card_id.unique' =>'当前身份证已经预约',
             'goods_name.required'=>'请至少选择一个供货货品',
-            'axle_number.required'=>'车轴数不能为空',
-            'axle_number.numeric'=>'车轴数必须是数字',
+//            'axle_number.required'=>'车轴数不能为空',
+            //'axle_number.numeric'=>'车轴数必须是数字',
 //            'load_weight.required'=>'荷载重量不能为空',
 //            'load_weight.numeric'=>'荷载重量必须是数字',
-            'channel.required'=>'发货地不能为空',
-//            'unit_name.required'=>'供货单位不能为空',
-//            'unit_transport.required'=>'运输单位不能为空',
-            'paper_number.required'=>'废纸件数不能为空',
-            'paper_number.numeric'=>'废纸件数必须为数字',
+//            'channel.required'=>'发货地不能为空',
+////            'unit_name.required'=>'供货单位不能为空',
+////            'unit_transport.required'=>'运输单位不能为空',
+//            'paper_number.required'=>'废纸件数不能为空',
+//            'paper_number.numeric'=>'废纸件数必须为数字',
             'people_num.required'=>'进场人数不能为空',
             'people_num.numeric' =>'进场人数必须是数字'
         ];
@@ -101,12 +101,12 @@ class SubscribeController extends Controller{
                     return;
                 }
             }],
-            'axle_number' =>'required|numeric',
+            //'axle_number' =>'required|numeric',
             //'load_weight' =>'required|numeric',
-            'channel'     =>'required',
+            //'channel'     =>'required',
 //            'unit_name'   =>'required',
 //            'unit_transport'=>'required',
-            'paper_number'  =>'required|numeric',
+            //'paper_number'  =>'required|numeric',
             'people_num'    =>'required|numeric'
         ],$messages);
         if($validator->fails()){
@@ -129,10 +129,10 @@ class SubscribeController extends Controller{
                 'card_id'    =>$request->input('card_id'),
                 'axle_number' =>$request->input('axle_number'),
                 //'load_weight' =>$request->input('load_weight'),
-                'channel'     =>$request->input('channel'),
+                'channel'     =>$request->input('channel')?:'',
 //                'unit_name'   =>$request->input('unit_name'),
                 'unit_transport'=>$request->input('unit_transport')?:'',
-                'paper_number'  =>$request->input('paper_number'),
+                'paper_number'  =>$request->input('paper_number')?:0,
                 'delivery_weight'=>$request->input('delivery_weight')?:0.00,
                 'people_num'     =>$request->input('people_num',0),
             ];
@@ -162,8 +162,8 @@ class SubscribeController extends Controller{
             'card_id.is_card'=>'身份证号格式不正确',
             'card_id.unique' =>'当前身份证已经预约',
             'goods_name.required'=>'请至少选择一个供货货品',
-            'axle_number.required'=>'车轴数不能为空',
-            'axle_number.numeric'=>'车轴数必须是数字',
+//            'axle_number.required'=>'车轴数不能为空',
+//            'axle_number.numeric'=>'车轴数必须是数字',
 //            'load_weight.required'=>'载重量不能为空',
 //            'load_weight.numeric'=>'载重量必须是数字',
             'channel.required'=>'发货地不能为空',
@@ -196,7 +196,7 @@ class SubscribeController extends Controller{
                     return;
                 }
             }],
-            'axle_number' =>'required|numeric',
+            //'axle_number' =>'required|numeric',
             //'load_weight' =>'required|numeric',
             'channel'     =>'required',
             //'unit_name'   =>'required',

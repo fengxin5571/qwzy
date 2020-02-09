@@ -8,6 +8,7 @@
 namespace App\Admin\Controllers;
 use App\Admin\Extensions\Tools\SubSupplyimport;
 use App\Admin\Filters\TimestampBetween;
+use App\Exports\SubSupplyExports;
 use App\Imports\SubscribeSupplyImport;
 use App\Jobs\AutoHandleBlackList;
 use App\Model\SubscribeSupply;
@@ -150,6 +151,7 @@ class SubscribeSupplyController extends AdminController{
         $grid->column('goods_name','货物名称')->display(function($goods_name){
             return explode(',',$goods_name);
         })->label();
+        $grid->column('paper_number','废纸件数')->sortable();
         $grid->column('sub_type','预约类型')->using(['1'=>'临时','2'=>'供货商']);
         $grid->column('sub_code','取卡码')->width(89);
         $grid->column('sub_time','预约时间')->sortable()->width(150);
@@ -198,9 +200,10 @@ class SubscribeSupplyController extends AdminController{
             });
 
         });
+        $grid->exporter(new SubSupplyExports());
         $grid->disableColumnSelector();
         $grid->disableCreateButton();
-        $grid->disableExport();
+        $grid->disableExport(false);
         $grid->paginate(20);
         return $grid;
     }
