@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
         //
         //手机号验证
         Validator::extend('is_mobile',function ($attribute, $value, $parameters, $validator){
-            return !!preg_match('/^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/', $value);
+            return !!preg_match('/^[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}$/', $value);
         });
         //身份证号验证
         Validator::extend('is_card',function($attribute, $value, $parameters, $validator){
