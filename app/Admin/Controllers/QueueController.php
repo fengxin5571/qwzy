@@ -47,7 +47,7 @@ class  QueueController extends AdminController{
             };
 
             // 去掉删除
-            $actions->disableDelete();
+            //$actions->disableDelete();
             // 去掉编辑
             $actions->disableEdit();
             // 去掉查看
