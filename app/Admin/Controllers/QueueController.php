@@ -9,6 +9,7 @@ namespace App\Admin\Controllers;
 use App\Admin\Extensions\QueueButton;
 use App\Model\TruckQueue;
 use Encore\Admin\Controllers\AdminController;
+use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Illuminate\Http\Request;
@@ -66,5 +67,8 @@ class  QueueController extends AdminController{
         $grid->disablePagination();
         return $grid;
     }
-
+    protected function form(){
+        $form=new Form(new TruckQueue());
+        return $form;
+    }
 }
