@@ -159,6 +159,8 @@ Route::group([
         $router->get('/','QueueController@index');
         //排队调整
         $router->post('sortable/{id}','QueueController@modify');
+        //删除排队
+        $router->delete('/{id}','QueueController@destroy');
     });
 
     //系统设置
