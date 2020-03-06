@@ -254,6 +254,6 @@ class SubscribeController extends Controller{
     protected function makeRandCode()
     {
         // 生成4位随机数，左侧补0
-        return random_int(1000,9999);
+        return str_pad(random_int(1, 9999), 4, 0, STR_PAD_LEFT);
     }
 }
