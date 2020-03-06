@@ -218,6 +218,9 @@ class SubscribeController extends Controller{
                 return $this->response->error('送货重量必须是数字',$this->forbidden_code);
             }
             $code=$this->makeRandCode();
+            if(SubscribeSupply::where('sub_code',$code)->first()){
+                $code=$this->makeRandCode();
+            }
             $supplier=$this->user;
             if(!$supplier){
                 throw new \Exception('预约失败');
