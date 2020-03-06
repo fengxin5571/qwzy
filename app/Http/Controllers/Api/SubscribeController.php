@@ -117,6 +117,9 @@ class SubscribeController extends Controller{
                 return $this->response->error('送货重量必须是数字',$this->forbidden_code);
             }
             $code=$this->makeRandCode();
+            if(SubscribeSupply::where('sub_code',$code)->first()){
+                $code=$this->makeRandCode();
+            }
             $data=[
                 'driver_name'=>$request->input('driver_name'),
                 'car_number' =>strtoupper($request->input('car_number')),
@@ -254,6 +257,6 @@ class SubscribeController extends Controller{
     protected function makeRandCode()
     {
         // 生成4位随机数，左侧补0
-        return str_pad(random_int(1, 9999), 4, 0, STR_PAD_LEFT);
+        return str_pad(random_int(1, 9999), 4, 1, STR_PAD_LEFT);
     }
 }
