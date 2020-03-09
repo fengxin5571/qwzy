@@ -7,6 +7,7 @@
  */
 namespace App\Admin\Controllers;
 use App\Admin\Filters\TimestampBetween;
+use App\Exports\SupSupplyExports;
 use App\Model\SupSupply;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Facades\Admin;
@@ -82,12 +83,20 @@ class SupSupplyController extends AdminController{
         $grid->column('mobile','手机号');
         $grid->column('goods_level','级别');
         $grid->column('goods_name','货品名称');
+        $grid->column('direction','运输方向')->hide();
+        $grid->column('weight','货物总重')->hide();
+        $grid->column('price','单价')->hide();
         $grid->column('Total','总额');
+        $grid->column('pct_other','扣杂')->hide();
+        $grid->column('pct_water','扣水')->hide();
         $grid->column('add_time','供货时间')->sortable();
         $grid->disableCreateButton();
         $grid->actions(function ($actions) {
             $actions->disableView(false);
         });
+        $grid->disableColumnSelector(false);
+        $grid->disableExport(false);
+        $grid->exporter(new SupSupplyExports());
         $grid->filter(function($filter){
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
