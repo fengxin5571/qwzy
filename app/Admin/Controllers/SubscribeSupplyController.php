@@ -69,16 +69,30 @@ class SubscribeSupplyController extends AdminController{
                   //$show->delivery_weight('送货重量：');
                   $show->paper_number('废纸件数：');
                   $show->people_num('进场人数：');
-                  $show->sub_time('供货时间：');
+                  $show->sub_time('预约时间：');
+                  $show->take_time('取卡时间：')->as(function($take_time){
+                       if($take_time){
+                           return date('Y-m-d H:i:s',$take_time);
+                       }else{
+                           return '未取卡';
+                       }
+
+                   });
+                   $show->weighed_time('过磅时间：')->as(function($weighed_time){
+                       if($weighed_time){
+                           return date('Y-m-d H:i:s',$weighed_time);
+                       }else{
+                           return '未过磅';
+                       }
+
+                   });
                   $show->sub_code('取卡码：');
                   $show->expire_time('验证码过期时间：')->as(function($expire_time){
                        return date('Y-m-d H:i:s',$expire_time);
                   });
-                  if($info->status==2){
-                      $show->take_time('取卡时间：')->as(function($take_time){
-                          return date('Y-m-d H:i:s',$take_time);
-                      });
-                  }
+
+
+
                   $show->status('供货状态：')->using(['0'=>'未取卡','1'=>'已过期','2'=>'已取卡','3'=>'已过磅','4'=>'已超时']);
                   $show->panel()
                        ->style('info')
@@ -155,9 +169,25 @@ class SubscribeSupplyController extends AdminController{
         $grid->column('sub_type','预约类型')->using(['1'=>'临时','2'=>'供货商']);
         $grid->column('sub_code','取卡码')->width(89);
         $grid->column('sub_time','预约时间')->sortable()->width(150);
+        $grid->column('take_time','取卡时间')->display(function ($take_time){
+            if($take_time){
+                return date('Y-m-d H:i:s',$take_time);
+            }else{
+                return '未取卡';
+            }
+
+        })->sortable();
+        $grid->column('weighed_time','过磅时间')->display(function ($weighed_time){
+            if($weighed_time){
+                return date('Y-m-d H:i:s',$weighed_time);
+            }else{
+                return '未过磅';
+            }
+
+        })->sortable();
         $grid->column('expire_time','验证码过期时间')->display(function ($expire_time){
             return date('Y-m-d H:i:s',$expire_time);
-        })->width(150);
+        })->width(150)->hide();
         $grid->column('status','供货状态')->using([
             '0'=>'<span class="label label-info">未取卡</span>',
             '1'=>'<span class="label label-danger">已过期</span>',
@@ -169,6 +199,7 @@ class SubscribeSupplyController extends AdminController{
             $actions->disableEdit();
 
         });
+        $grid->disableColumnSelector(false);
         $grid->tools(function ($tools) {
             $tools->append(new SubSupplyimport());
         });
@@ -201,7 +232,6 @@ class SubscribeSupplyController extends AdminController{
 
         });
         $grid->exporter(new SubSupplyExports());
-        $grid->disableColumnSelector();
         $grid->disableCreateButton();
         $grid->disableExport(false);
         $grid->paginate(20);

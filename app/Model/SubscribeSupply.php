@@ -55,6 +55,8 @@ class SubscribeSupply extends Eloquent
 		'mobile',
 		'sub_type',
 		'sub_time',
+        'weighed_time',
+        'take_time',
         'expire_time',
         'supplier_id',
 		'goods_name',
