@@ -91,7 +91,13 @@ class SupSupplyController extends AdminController{
         $grid->filter(function($filter){
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
-            $filter->like('shipper_name','货主名称');
+            $filter->where(function ($query) {
+
+                $query->whereHas('supplier', function ($query) {
+                    $query->where('shipper_name', 'like', "%{$this->input}%");
+                });
+
+            }, '货主名称');
             $filter->like('driver_name','司机姓名');
             $filter->equal('mobile','手机号')->mobile();
             $filter->like('car_number','车牌号');
