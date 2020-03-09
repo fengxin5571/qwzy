@@ -188,7 +188,7 @@ class SubscribeSupplyController extends AdminController{
             $filter->column(1/2, function ($filter) {
                 $filter->like('car_number','车牌号');
                 $filter->like('goods_name','货品名称');
-                $filter->use(new TimestampBetween('sub_time','供货时间'))->date();
+                $filter->use(new TimestampBetween('sub_time','供货时间'))->datetime();
                 $filter->equal('status','供货状态')->radio([
                     ''  =>'所有',
                     0   => '未取卡',
