@@ -72,19 +72,15 @@ class AuthController extends Controller{
            return $this->response->error('注册失败',$this->forbidden_code);
         }
     }
+    /**
+     * 验证是否登录
+     * @param Request $request
+     * @return mixed
+     */
     public function chekc_login(Request $request){
-        $message=[
-            'shipper_name.required'=>'货主姓名不能为空',
-            'mobile.required'=>'手机号不能为空'
-        ];
-        $validator=Validator::make($request->all(),[
-            'shipper_name'=>'required',
-            'mobile'=>'required'
-        ],$message);
-        if($validator->fails()){
-            return $this->response->error($validator->errors()->first(),$this->unauth_code);
-        }
         $credentials=$request->only('shipper_name','mobile');
+        if(!isset($credentials['shipper_name']))$credentials['shipper_name']='';
+        if(!isset($credentials['mobile']))$credentials['mobile']='';
         $supplier=Supplier::where(['shipper_name'=>$credentials['shipper_name'],'mobile'=>$credentials['mobile'],'status'=>1])->first();
         $data['is_login']=false;
         if($supplier&&$supplier->old_token){
@@ -99,11 +95,13 @@ class AuthController extends Controller{
     public function login(Request $request){
         $message=[
             'shipper_name.required'=>'货主姓名不能为空',
-            'mobile.required'=>'手机号不能为空'
+            'mobile.required'=>'手机号不能为空',
+            'password.required'=>'密码不能为空',
         ];
         $validator=Validator::make($request->all(),[
             'shipper_name'=>'required',
-            'mobile'=>'required'
+            'mobile'=>'required',
+            //'password'=>'required|min:6|max:14'
         ],$message);
         if($validator->fails()){
             return $this->response->error($validator->errors()->first(),$this->unauth_code);
