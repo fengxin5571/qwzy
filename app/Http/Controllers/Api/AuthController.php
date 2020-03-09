@@ -12,6 +12,7 @@ use App\Model\TruckQueue;
 use EasyWeChat\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -71,7 +72,26 @@ class AuthController extends Controller{
            return $this->response->error('注册失败',$this->forbidden_code);
         }
     }
-
+    public function chekc_login(Request $request){
+        $message=[
+            'shipper_name.required'=>'货主姓名不能为空',
+            'mobile.required'=>'手机号不能为空'
+        ];
+        $validator=Validator::make($request->all(),[
+            'shipper_name'=>'required',
+            'mobile'=>'required'
+        ],$message);
+        if($validator->fails()){
+            return $this->response->error($validator->errors()->first(),$this->unauth_code);
+        }
+        $credentials=$request->only('shipper_name','mobile');
+        $supplier=Supplier::where(['shipper_name'=>$credentials['shipper_name'],'mobile'=>$credentials['mobile'],'status'=>1])->first();
+        $data['is_login']=false;
+        if($supplier&&$supplier->old_token){
+            $data['is_login']=true;
+        }
+        return $this->successResponse($data,'ok');
+    }
     /**
      * 供应商普通登录
      * @param Request $request
@@ -88,13 +108,15 @@ class AuthController extends Controller{
         if($validator->fails()){
             return $this->response->error($validator->errors()->first(),$this->unauth_code);
         }
-        $credentials=$request->only('shipper_name','mobile');
+        $credentials=$request->only('shipper_name','mobile','password');
+        $credentials['password']='123456';
         $supplier=Supplier::where(['shipper_name'=>$credentials['shipper_name'],'mobile'=>$credentials['mobile'],'status'=>1])->first();
+        if(!$supplier) return $this->response->error('登录失败，请确认账号是否正确',$this->unauth_code);
+        if(!Hash::check($credentials['password'],$supplier->password)) return $this->response->error('密码错误',$this->unauth_code);
         if($supplier->old_token){
             $old_tokenn=new Token($supplier->old_token);
             \JWTAuth::invalidate(false,$old_tokenn);
         }
-        if(!$supplier) return $this->response->error('登录失败，请确认账号是否正确',$this->unauth_code);
         if(!$token=auth('api')->login($supplier)){
             return $this->response->error('登录失败，请确认账号是否正确',$this->unauth_code);
         }

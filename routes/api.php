@@ -24,6 +24,8 @@ $api->version('v1',[
         $api->get('register/setting','AuthController@setting');
         //供应商注册
         $api->post('register','AuthController@register')->name('sup.register');
+        //验证登录
+        $api->post('checklogin','AuthController@chekc_login')->name('sup.check_login');
         //供应商登录
         $api->post('login','AuthController@login')->name('sup.login');
         $api->get('test','AuthController@test');
