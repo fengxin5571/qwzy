@@ -27,6 +27,9 @@ class SupplierController extends Controller{
      * @return mixed
      */
     public function loginout(){
+        $supplier=auth('api')->user();
+        $supplier->old_token='';
+        $supplier->save();
         auth('api')->logout();
         return $this->successResponse('','退出登录成功');
     }

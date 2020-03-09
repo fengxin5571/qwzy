@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Manager;
+use Tymon\JWTAuth\Token;
 
 class AuthController extends Controller{
     protected $app;
@@ -88,11 +90,17 @@ class AuthController extends Controller{
         }
         $credentials=$request->only('shipper_name','mobile');
         $supplier=Supplier::where(['shipper_name'=>$credentials['shipper_name'],'mobile'=>$credentials['mobile'],'status'=>1])->first();
+        if($supplier->old_token){
+            $old_tokenn=new Token($supplier->old_token);
+            \JWTAuth::invalidate(false,$old_tokenn);
+        }
         if(!$supplier) return $this->response->error('登录失败，请确认账号是否正确',$this->unauth_code);
         if(!$token=auth('api')->login($supplier)){
             return $this->response->error('登录失败，请确认账号是否正确',$this->unauth_code);
         }
         $data['token']=$token;
+        $supplier->old_token=$token;
+        $supplier->save();
         return $this->successResponse($data,'登录成功');
     }
 

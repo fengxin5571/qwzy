@@ -60,7 +60,8 @@ class Supplier extends Authenticatable implements JWTSubject
         'expire_time',
         'pay_time',
         'pay_item',
-        'pay_amount'
+        'pay_amount',
+        'old_token'
 	];
 	public function getJWTIdentifier()
     {
