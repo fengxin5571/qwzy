@@ -113,7 +113,9 @@ class AuthController extends Controller{
         if(!Hash::check($credentials['password'],$supplier->password)) return $this->response->error('密码错误',$this->unauth_code);
         if($supplier->old_token){
             $old_tokenn=new Token($supplier->old_token);
-            \JWTAuth::invalidate(false,$old_tokenn);
+            if(JWTAuth::setToken($old_tokenn)->check()){
+                JWTAuth::invalidate(false,$old_tokenn);
+            }
         }
         if(!$token=auth('api')->login($supplier)){
             return $this->response->error('登录失败，请确认账号是否正确',$this->unauth_code);
@@ -123,7 +125,6 @@ class AuthController extends Controller{
         $supplier->save();
         return $this->successResponse($data,'登录成功');
     }
-
     /**
      * 供应商微信快捷的登录
      * @param Request $request
