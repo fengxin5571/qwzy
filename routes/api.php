@@ -40,6 +40,8 @@ $api->version('v1',[
         $api->group(['middleware'=>'authToken'],function ($api){
             //个人中心
             $api->get('my','SupplierController@my');
+            //修改密码
+            $api->post('change/password','SupplierController@edit_password');
             //供应商微信绑定
             $api->post('/weixin/bind','SupplierController@bind');
             //解除微信绑定

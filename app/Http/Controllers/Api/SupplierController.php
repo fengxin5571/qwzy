@@ -11,6 +11,7 @@ use App\Model\Notice;
 use App\Model\SubscribeSupply;
 use App\Model\SupSupply;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 class SupplierController extends Controller{
     /**
@@ -21,6 +22,35 @@ class SupplierController extends Controller{
         $data=$this->user;
         $data['is_bind']=$this->user->routine_openid?true:false;
         return $this->successResponse($data);
+    }
+    /**
+     * 修改密码
+     * @param Request $request
+     * @return mixed
+     */
+    public function edit_password(Request $request){
+        $message=[
+            'old_password.required'=>'旧密码不能为空',
+            'password.required'=>'新密码不能为空',
+            'password_confirmation.required'=>'确认密码不能为空',
+        ];
+        $validator=Validator::make($request->all(),[
+            'old_password'=>'required',
+            'password'=>'required|confirmed|min:6|max:14',
+            'password_confirmation'=>'required|min:6|max:14'
+        ],$message);
+        if($validator->fails()){
+            return $this->response->error($validator->errors()->first(),$this->forbidden_code);
+        }
+        $supplier=$this->user;
+        if(!Hash::check($request->input('old_password'),$supplier->password)) return $this->response->error('旧密码输入错误',$this->unauth_code);
+        if($supplier->update(['password'=>bcrypt($request->input('password'))])){
+            return $this->successResponse('','修改成功');
+        }else{
+            return $this->response->error('修改失败',$this->forbidden_code);
+        }
+
+
     }
     /**
      * 退出登录
