@@ -17,6 +17,8 @@ use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Show;
 use Encore\Admin\Facades\Admin;
+use Illuminate\Support\Facades\Hash;
+
 class SupplierController extends AdminController {
 
 
@@ -246,6 +248,10 @@ class SupplierController extends AdminController {
             //$form->datetime('expire_time','付费到期时间')->setMinDate(date('Y/m/d',time()+24*3600))->format('YYYY-MM-DD');
 
         }
+        $form->display('show_pass','显示密码')->with(function ($show_pass) {
+            return  $show_pass;
+        });
+        $form->password('password', trans('admin.password'))->rules('required|min:6');
         $form->radio('status','状态')->options(['0' => '未审核', '1'=> '正常','2'=>'不可用']);
         $form->saving(function (Form $form){
             if(config('register_pay')){//是否开启注册支付
@@ -266,6 +272,11 @@ class SupplierController extends AdminController {
                     $form->model()->expire_time=null;
 //                    $form->model()->pay_time=null;
                 }
+            }
+            if ($form->password && $form->model()->password != $form->password) {
+                $form->model()->show_pass=$form->password;
+                $form->password = bcrypt($form->password);
+
             }
         });
         $form->footer(function ($footer) {

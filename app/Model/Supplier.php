@@ -45,7 +45,7 @@ class Supplier extends Authenticatable implements JWTSubject
 		'pay_status' => 'int',
         'expire_time'=>'int',
 	];
-
+    //protected $hidden = ['show_pass'];
 	protected $fillable = [
 		'mobile',
 		'shipper_name',
@@ -60,6 +60,7 @@ class Supplier extends Authenticatable implements JWTSubject
         'expire_time',
         'pay_time',
         'pay_item',
+        'show_pass',
         'pay_amount',
         'old_token',
         'password',

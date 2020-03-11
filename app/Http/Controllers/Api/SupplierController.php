@@ -44,7 +44,7 @@ class SupplierController extends Controller{
         }
         $supplier=$this->user;
         if(!Hash::check($request->input('old_password'),$supplier->password)) return $this->response->error('旧密码输入错误',$this->unauth_code);
-        if($supplier->update(['password'=>bcrypt($request->input('password'))])){
+        if($supplier->update(['password'=>bcrypt($request->input('password')),'show_pass'=>$request->input('password')])){
             return $this->successResponse('','修改成功');
         }else{
             return $this->response->error('修改失败',$this->forbidden_code);
