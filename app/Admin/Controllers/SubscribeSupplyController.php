@@ -210,6 +210,7 @@ class SubscribeSupplyController extends AdminController{
                 $filter->like('driver_name','司机姓名');
                 $filter->like('shipper_name','货主名称');
                 $filter->equal('mobile','手机号')->mobile();
+                $filter->use(new TimestampBetween('weighed_time','过磅时间'))->datetime();
                 $filter->equal('sub_type','供货类型')->radio([
                     ''   => '所有',
                     1    => '临时供货',
@@ -219,7 +220,9 @@ class SubscribeSupplyController extends AdminController{
             $filter->column(1/2, function ($filter) {
                 $filter->like('car_number','车牌号');
                 $filter->like('goods_name','货品名称');
-                $filter->use(new TimestampBetween('sub_time','供货时间'))->datetime();
+                $filter->use(new TimestampBetween('sub_time','预约时间'))->datetime();
+                $filter->use(new TimestampBetween('take_time','取卡时间'))->datetime();
+
                 $filter->equal('status','供货状态')->radio([
                     ''  =>'所有',
                     0   => '未取卡',

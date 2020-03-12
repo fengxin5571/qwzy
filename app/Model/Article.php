@@ -42,7 +42,8 @@ class Article extends Eloquent
 		'sort',
 		'add_time',
 		'content',
-		'status'
+		'status',
+        'is_top'
 	];
 	//状态为显示的文章
 	public function scopeOnlie($query){
@@ -82,7 +83,7 @@ class Article extends Eloquent
                 $query->where('tag_id',$request->input('tag_id'));
             }
 
-        })->forPage($request->input('page',1),$request->input('limit',10))->orderBy('add_time','desc')->get(['id','c_id','title','description','add_time']);
+        })->forPage($request->input('page',1),$request->input('limit',10))->orderBy('is_top','desc')->orderBy('add_time','desc')->get(['id','c_id','title','description','add_time']);
         $data['count']=$article->Onlie()->where($where)->whereHas('tags',function($query) use($request){
             if($request->input('tag_id')){
                 $query->where('tag_id',$request->input('tag_id'));

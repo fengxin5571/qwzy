@@ -111,7 +111,7 @@ class SupSupplyController extends AdminController{
             $filter->equal('mobile','手机号')->mobile();
             $filter->like('car_number','车牌号');
             $filter->like('goods_name','货品名称');
-            $filter->use(new TimestampBetween('add_time','供货时间'))->date();
+            $filter->use(new TimestampBetween('add_time','供货时间'))->dateTime();
         });
         return $grid;
     }

@@ -67,6 +67,11 @@ class ArticleController extends AdminController{
             return join('&nbsp;', $tags);
         });
         $grid->column('add_time','创建时间')->sortable();
+        $states = [
+            'on'  => ['value' => 1, 'text' => '是', 'color' => 'info'],
+            'off' => ['value' => 0, 'text' => '否', 'color' => 'default'],
+        ];
+        $grid->column('is_top','是否置顶')->switch($states);
         $grid->column('status','状态')->using(['0'=>"<span class='label label-danger'>隐藏</span>",'1'=>"<span class='label label-success'>显示</span>"]);
         $grid->filter(function($filter){
             // 去掉默认的id过滤器
@@ -105,10 +110,19 @@ class ArticleController extends AdminController{
         $form->textarea('description','资讯摘要')->rows(4);
         $form->multipleSelect('tags','资讯标签')->options(ArticleTag::all()->pluck('tag_name', 'id'));
         $form->UEditor('content','资讯内容')->options(['initialFrameHeight' => 500])->rules('required');
+        $form->radio('is_top','是否置顶')->options(['0' => '否', '1'=> '是'])->default('0');
         $form->radio('status','状态')->options(['0' => '隐藏', '1'=> '显示'])->default('1');
         $form->saving(function(Form $form){
-            $form->model()->add_time=time();
-
+            if(!$form->model()->add_time){
+                $form->model()->add_time=time();
+            }
+            if($form->_method='PUT'){
+                if($form->is_top=='on'){
+                    $form->model()->is_top=1;
+                }elseif ($form->is_top=='off'){
+                    $form->model()->is_top=0;
+                }
+            }
         });
         $form->tools(function (Form\Tools $tools) {
             // 去掉`查看`按钮
