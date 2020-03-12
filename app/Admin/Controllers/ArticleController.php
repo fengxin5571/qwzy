@@ -118,9 +118,9 @@ class ArticleController extends AdminController{
             }
             if($form->_method='PUT'){
                 if($form->is_top=='on'){
-                    $form->model()->is_top=1;
+                    $form->is_top=1;
                 }elseif ($form->is_top=='off'){
-                    $form->model()->is_top=0;
+                    $form->is_top=0;
                 }
             }
         });
