@@ -244,4 +244,12 @@ class AuthController extends Controller{
         $data['message']="当前有{$wait}辆车排队，{$weight}辆车等待上磅，{$weighing}辆车正在过磅。";
         return $this->successResponse($data);
     }
+    /**
+     * 获取联系电话
+     * @return mixed
+     */
+    public function get_phone(){
+        $data['phone']=config('contact_phone');
+        return $this->successResponse($data);
+    }
 }

@@ -96,6 +96,8 @@ $api->version('v1',[
     $api->get('queue/getcode','AuthController@getQueueCode');
     //获取排队信息
     $api->get('queue/msg','AuthController@getQueueMessage');
+    //获取联系电话
+    $api->get('phone','AuthController@get_phone');
 });
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
