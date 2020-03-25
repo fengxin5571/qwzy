@@ -6,9 +6,11 @@
  * Time: 6:29 PM
  */
 namespace App\Admin\Controllers;
+use App\Admin\Extensions\SendNotice;
 use App\Model\Article;
 use App\Model\ArticleCategory;
 use App\Model\ArticleTag;
+use EasyWeChat\Factory;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
@@ -94,6 +96,7 @@ class ArticleController extends AdminController{
         });
         $grid->actions(function ($actions) {
             $actions->disableView();
+            $actions->prepend(new SendNotice($actions->getKey()));
         });
         $grid->disableColumnSelector();
         $grid->disableExport();
@@ -137,5 +140,16 @@ class ArticleController extends AdminController{
             $footer->disableCreatingCheck();
         });
         return $form;
+    }
+    /**
+     * 发送消息
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function send_notice($id){
+        $data['status']=true;
+//        \App\Jobs\SendNotice::dispatch($id);
+        admin_toastr('发送成功', 'success',['timeOut'=>1000]);
+        return response()->json($data);
     }
 }

@@ -175,4 +175,20 @@ class SupplierController extends Controller{
         }
         return $this->successResponse($supply_info);
     }
+    /**
+     * 订阅消息
+     * @param Request $request
+     * @return mixed
+     */
+    public function sup_subscribe(Request $request){
+        $sub_request['is_notice']=$request->input('is_notice',0);
+        $sub_request['is_supply']=$request->input('is_supply',0);
+        $supplier=$this->user;
+        if(!$supplier->routine_openid){
+            return $this->response->error('该用户未绑定微信',$this->forbidden_code);
+        }
+        $supplier->update(['is_notice'=>$sub_request['is_notice'],'is_supply'=>$sub_request['is_supply']]);
+        return $this->successResponse('','订阅成功');
+
+    }
 }

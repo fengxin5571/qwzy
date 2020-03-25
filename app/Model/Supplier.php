@@ -64,6 +64,8 @@ class Supplier extends Authenticatable implements JWTSubject
         'pay_amount',
         'old_token',
         'password',
+        'is_notice',
+        'is_supply'
 	];
     //protected $hidden=['password'];
 	public function getJWTIdentifier()

@@ -58,6 +58,8 @@ $api->version('v1',[
             $api->get('/my/supply','SupplierController@mySupply');
             //供货记录详情
             $api->get('/my/supply/info','SupplierController@supplyDetails');
+            //用户订阅消息
+            $api->post('sub_notice','SupplierController@sup_subscribe');
         });
     });
     //企业通知

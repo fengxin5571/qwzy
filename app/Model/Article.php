@@ -43,7 +43,7 @@ class Article extends Eloquent
 		'add_time',
 		'content',
 		'status',
-        'is_top'
+        'is_top',
 	];
 	//状态为显示的文章
 	public function scopeOnlie($query){

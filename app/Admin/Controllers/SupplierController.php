@@ -147,6 +147,8 @@ class SupplierController extends AdminController {
                    $show->field('status','状态')->as(function ($status){
                        return Supplier::$statusValue[$status];
                    });
+                   $show->field('is_notice','订阅价格通知')->using(['0'=>'未订阅','1'=>'已订阅']);
+                   $show->field('is_supply','订阅供货通知')->using(['0'=>'未订阅','1'=>'已订阅']);
                }));
     }
 

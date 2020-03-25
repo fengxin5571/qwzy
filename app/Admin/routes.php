@@ -62,6 +62,8 @@ Route::group([
         $router->put('/{id}','ArticleController@update');
         //删除资讯
         $router->delete('/{id}','ArticleController@destroy');
+        //发送通知
+        $router->get('/send/{id}','ArticleController@send_notice');
     });
     //资讯标签
     $router->group(['prefix'=>'articletag'],function($router){
