@@ -70,7 +70,7 @@ class SendNotice implements ShouldQueue
                 }
             }
         }catch (\Exception $e){
-            $error_log='发送价格通知错误:';
+            $error_log='发送价格调整通知错误:';
             Log::error($error_log.$e->getMessage());
 
         }

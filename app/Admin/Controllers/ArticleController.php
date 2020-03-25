@@ -96,7 +96,9 @@ class ArticleController extends AdminController{
         });
         $grid->actions(function ($actions) {
             $actions->disableView();
-            $actions->prepend(new SendNotice($actions->getKey()));
+            if($actions->row->c_id==5){
+                $actions->prepend(new SendNotice($actions->getKey()));
+            }
         });
         $grid->disableColumnSelector();
         $grid->disableExport();
