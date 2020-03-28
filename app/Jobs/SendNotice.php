@@ -17,7 +17,7 @@ class SendNotice implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     protected $article;
     protected $app;
-    public $tries = 2;
+    public $tries = 1;
     /**
      * Create a new job instance.
      *
@@ -45,15 +45,15 @@ class SendNotice implements ShouldQueue
                 return;
             }
             //获取订阅的供货商
-            $sendSupplierList=Supplier::where(['is_notice'=>1,'status'=>1])->where('routine_openid','<>','')->get();
+            $sendSupplierList=Supplier::where('status',1)->where('routine_openid','<>','')->get();
             foreach ($sendSupplierList as $supplier){
                 $data = [
                     'template_id' => 'F_2ucE1IjX2VhBr2mTlecp6fNHhpIrwZv1eUzV_aTnc', // 所需下发的订阅模板id
                     'touser' => $supplier->routine_openid,     // 接收者（用户）的 openid
-                    'page' => '',       // 点击模板卡片后的跳转页面，仅限本小程序内的页面。支持带参数,（示例index?foo=bar）。该字段不填则模板无跳转。
+                    'page' => 'pages/newsDetail/index?id='.$this->article->id,       // 点击模板卡片后的跳转页面，仅限本小程序内的页面。支持带参数,（示例index?foo=bar）。该字段不填则模板无跳转。
                     'data' => [         // 模板内容，格式形如 { "key1": { "value": any }, "key2": { "value": any } }
                         'time1' => [
-                            'value' =>$this->article->add_time ,
+                            'value' =>date('Y年m月d日 H:i',strtotime($this->article->add_time)),
                         ],
                         'thing2' => [
                             'value' =>'废纸、普报',
@@ -65,10 +65,11 @@ class SendNotice implements ShouldQueue
                 ];
                 $res=$this->app->subscribe_message->send($data);
                 if($res['errcode']){
-                    Log::error("微信订阅消息接口错误返回:".$res['errmsg']);
+                    Log::error("微信订阅消息接口错误返回:".$res['errcode'].' info'.$res['errmsg']);
                     continue;
                 }
             }
+
         }catch (\Exception $e){
             $error_log='发送价格调整通知错误:';
             Log::error($error_log.$e->getMessage());

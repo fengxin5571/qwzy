@@ -29,6 +29,7 @@ class Setting extends Form
        // ConfigModel::where('name','register_pay')->update(['value'=>$request->get('register_pay')]);
         ConfigModel::where('name','hot_search')->update(['value'=>$request->get('hot_search')]);
         ConfigModel::where('name','contact_phone')->update(['value'=>$request->get('contact_phone')]);
+        ConfigModel::where('name','is_send')->update(['value'=>$request->get('is_send')]);
         admin_success('配置成功');
 
         return back();
@@ -42,6 +43,7 @@ class Setting extends Form
        //$this->radio('register_pay','注册付费:')->options(['0'=>'关闭','1'=>'打开']);
        $this->text('hot_search','企业通知热门搜索')->help('多个词请用,号分割');
        $this->mobile('contact_phone','联系电话');
+       $this->radio('is_send','发送供货成功通知')->options([0=>'否',1=>'是']);
     }
 
     /**
@@ -55,6 +57,7 @@ class Setting extends Form
             //'register_pay'       => ConfigModel::where('name','register_pay')->value('value'),
             'hot_search'         => ConfigModel::where('name','hot_search')->value('value'),
             'contact_phone'      => ConfigModel::where('name','contact_phone')->value('value'),
+            'is_send'            => ConfigModel::where('name','is_send')->value('value'),
         ];
     }
 }

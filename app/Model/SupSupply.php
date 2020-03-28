@@ -58,7 +58,8 @@ class SupSupply extends Eloquent
 		'price',
 		'sub_imgs',
 		'add_time',
-		'supplier_id'
+		'supplier_id',
+        'is_send',
 	];
     public function setSubImgsAttribute($image)
     {

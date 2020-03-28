@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Jobs\AutoHandleBlackList;
 use App\Jobs\AutoHandleCode;
+use App\Jobs\SendSupply;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -30,6 +31,7 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
         $schedule->job(new AutoHandleCode())->everyMinute();
         $schedule->job(new AutoHandleBlackList())->everyMinute();
+        $schedule->job(new SendSupply())->everyFiveMinutes();
     }
 
     /**

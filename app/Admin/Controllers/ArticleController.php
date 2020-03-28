@@ -7,9 +7,11 @@
  */
 namespace App\Admin\Controllers;
 use App\Admin\Extensions\SendNotice;
+use App\Jobs\SendSupply;
 use App\Model\Article;
 use App\Model\ArticleCategory;
 use App\Model\ArticleTag;
+use App\Model\SupSupply;
 use EasyWeChat\Factory;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Grid;
@@ -150,7 +152,7 @@ class ArticleController extends AdminController{
      */
     public function send_notice($id){
         $data['status']=true;
-//        \App\Jobs\SendNotice::dispatch($id);
+        \App\Jobs\SendNotice::dispatch($id);
         admin_toastr('发送成功', 'success',['timeOut'=>1000]);
         return response()->json($data);
     }
