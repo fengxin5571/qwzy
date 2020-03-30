@@ -34,7 +34,6 @@ class Article extends Eloquent
 		'add_time' => 'date:Y-m-d H:i:s',
 		'status' => 'int'
 	];
-
 	protected $fillable = [
 		'cid',
 		'title',
@@ -44,7 +43,36 @@ class Article extends Eloquent
 		'content',
 		'status',
         'is_top',
+        'execution_time',
+        'notice_type'
 	];
+	private $type_show=[1=>'废纸',2=>'普报'];
+	public function getExecutionTimeAttribute($value){
+	    if(!$value){
+            $value=time();
+        }
+	    return date('Y-m-d H:i:s',$value);
+    }
+    public function setNoticeTypeAttribute($value)
+    {
+        $this->attributes['notice_type'] = implode(',', $value);
+    }
+    public function getNoticeTypeAttribute($value)
+    {
+        if($value){
+            return explode(',', $value);
+        }
+
+    }
+    public function getTypeAttribute(){
+	    $txt='';
+	    if($this->notice_type){
+            foreach ($this->notice_type as $v){
+                $txt.=$this->type_show[$v].',';
+            }
+        }
+        return rtrim($txt,',');
+    }
 	//状态为显示的文章
 	public function scopeOnlie($query){
         return $query->where('status',1);

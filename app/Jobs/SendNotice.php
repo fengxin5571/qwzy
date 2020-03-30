@@ -46,6 +46,7 @@ class SendNotice implements ShouldQueue
             }
             //获取订阅的供货商
             $sendSupplierList=Supplier::where('status',1)->where('routine_openid','<>','')->get();
+
             foreach ($sendSupplierList as $supplier){
                 $data = [
                     'template_id' => 'F_2ucE1IjX2VhBr2mTlecp6fNHhpIrwZv1eUzV_aTnc', // 所需下发的订阅模板id
@@ -53,10 +54,10 @@ class SendNotice implements ShouldQueue
                     'page' => 'pages/newsDetail/index?id='.$this->article->id,       // 点击模板卡片后的跳转页面，仅限本小程序内的页面。支持带参数,（示例index?foo=bar）。该字段不填则模板无跳转。
                     'data' => [         // 模板内容，格式形如 { "key1": { "value": any }, "key2": { "value": any } }
                         'time1' => [
-                            'value' =>date('Y年m月d日 H:i',strtotime($this->article->add_time)),
+                            'value' =>date('Y年m月d日 H:i',strtotime($this->article->execution_time)),
                         ],
                         'thing2' => [
-                            'value' =>'废纸、普报',
+                            'value' =>$this->article->type?$this->article->type:'无类别',
                         ],
                         'thing3' => [
                             'value' => '详细价格调整情况请点击下方“查看详情”',
@@ -72,7 +73,7 @@ class SendNotice implements ShouldQueue
 
         }catch (\Exception $e){
             $error_log='发送价格调整通知错误:';
-            Log::error($error_log.$e->getMessage());
+            Log::error($error_log.$e->getMessage().' line:'.$e->getLine());
 
         }
     }

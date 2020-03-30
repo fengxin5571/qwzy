@@ -41,6 +41,7 @@ class ArticleController extends AdminController{
         return $content
             ->header('新增资讯')
             ->description('新增')
+            ->breadcrumb(['text'=>'新增资讯'])
             ->body($this->form());
     }
 
@@ -53,6 +54,7 @@ class ArticleController extends AdminController{
     public function  edit($id,Content $content){
         return $content->header('编辑资讯')
                ->description('编辑')
+               ->breadcrumb(['text'=>'编辑资讯'])
                ->body($this->form()->edit($id));
     }
     public function grid(){
@@ -117,11 +119,16 @@ class ArticleController extends AdminController{
         $form->textarea('description','资讯摘要')->rows(4);
         $form->multipleSelect('tags','资讯标签')->options(ArticleTag::all()->pluck('tag_name', 'id'));
         $form->UEditor('content','资讯内容')->options(['initialFrameHeight' => 500])->rules('required');
+        $form->checkbox('notice_type','价格通知类别')->options([1 => '废纸', 2 => '普报'])->help('此项仅为价格调整通知时使用，企业新闻可不设置');
+        $form->datetime('execution_time','价格执行时间')->format('YYYY-MM-DD HH:mm:ss')->help('此项仅为价格调整通知时使用，企业新闻可不设置');
         $form->radio('is_top','是否置顶')->options(['0' => '否', '1'=> '是'])->default('0');
         $form->radio('status','状态')->options(['0' => '隐藏', '1'=> '显示'])->default('1');
         $form->saving(function(Form $form){
             if(!$form->model()->add_time){
                 $form->model()->add_time=time();
+            }
+            if($form->execution_time){
+                $form->execution_time=strtotime($form->execution_time);
             }
             if($form->_method='PUT'){
                 if($form->is_top=='on'){

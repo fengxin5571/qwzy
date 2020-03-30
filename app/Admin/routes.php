@@ -55,10 +55,10 @@ Route::group([
         //资讯列表
         $router->get('/','ArticleController@index');
         //新增资讯
-        $router->get('/create','ArticleController@create');
+        $router->get('/create','ArticleController@create')->name('article.add');
         $router->post('/','ArticleController@store');
         //编辑资讯
-        $router->get('/{id}/edit','ArticleController@edit');
+        $router->get('/{id}/edit','ArticleController@edit')->name('article.edit');
         $router->put('/{id}','ArticleController@update');
         //删除资讯
         $router->delete('/{id}','ArticleController@destroy');
