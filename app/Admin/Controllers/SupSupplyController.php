@@ -75,6 +75,7 @@ class SupSupplyController extends AdminController{
     }
     protected function grid(){
         $grid=new Grid(new SupSupply());
+        $grid->model()->orderBy('add_time','desc');
         $grid->column('id','ID')->sortable();
         $grid->column('order_sn','磅单号')->copyable();
         $grid->column('supplier.shipper_name','供货商姓名');
