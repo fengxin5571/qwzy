@@ -101,13 +101,13 @@ class AuthController extends Controller{
         $validator=Validator::make($request->all(),[
             'shipper_name'=>'required',
             'mobile'=>'required',
-            //'password'=>'required|min:6|max:14'
+            'password'=>'required|min:6|max:14'
         ],$message);
         if($validator->fails()){
             return $this->response->error($validator->errors()->first(),$this->unauth_code);
         }
         $credentials=$request->only('shipper_name','mobile','password');
-        $credentials['password']='123456';
+//        $credentials['password']='123456';
         $supplier=Supplier::where(['shipper_name'=>$credentials['shipper_name'],'mobile'=>$credentials['mobile'],'status'=>1])->first();
         if(!$supplier) return $this->response->error('登录失败，请确认账号是否正确',$this->unauth_code);
         if(!Hash::check($credentials['password'],$supplier->password)) return $this->response->error('密码错误',$this->unauth_code);
