@@ -92,8 +92,11 @@ $api->version('v1',[
     });
     //排队货品分类
     $api->get('queue/type','QueueController@queueType');
-    //车辆排队
-    $api->get('queue','QueueController@queue');
+    $api->group(['middleware'=>'authToken'],function ($api){
+        //车辆排队
+        $api->get('queue','QueueController@queue');
+    });
+
     //获取排队小程序码
     $api->get('queue/getcode','AuthController@getQueueCode');
     //获取排队信息
