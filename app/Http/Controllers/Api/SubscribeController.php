@@ -17,6 +17,7 @@ use App\Model\Supplier;
 use App\Model\SupplyBlacklist;
 use App\Services\SmsService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 class SubscribeController extends Controller{
@@ -143,7 +144,8 @@ class SubscribeController extends Controller{
                 throw new \Exception('预约失败');
             }
         }catch (\Exception $e){
-            return $this->response->error($e->getMessage(),$this->forbidden_code);
+            Log::error('预约错误'.$e->getMessage());
+            return $this->response->error('预约失败',$this->forbidden_code);
         }
         return $this->successResponse('','预约成功,请在'.config('expire_time').'小时内取卡,取卡码：'.$code);
     }
@@ -252,7 +254,8 @@ class SubscribeController extends Controller{
                 throw new \Exception('预约失败');
             }
         }catch (\Exception $e){
-            return $this->response->error($e->getMessage(),$this->forbidden_code);
+            Log::error('预约错误'.$e->getMessage());
+            return $this->response->error('预约失败',$this->forbidden_code);
         }
         return $this->successResponse("",'预约成功,请在'.config('expire_time').'小时内取卡,取卡码：'.$code);
     }
