@@ -103,8 +103,11 @@ class Article extends Eloquent
                 $start=strtotime(date("Y-m-d"),time());
                 $end=strtotime(date("Y-m-d"),time())+60*60*24;
             }
-            $where[]=['add_time','>=',$start];
-            $where[]=['add_time','<=',$end];
+            if($request->input('c_id')==5){
+                $where[]=['add_time','>=',$start];
+                $where[]=['add_time','<=',$end];
+            }
+
         }
         $data['list'] = $article->Onlie()->where($where)->whereHas('tags',function($query) use($request){
             if($request->input('tag_id')){
