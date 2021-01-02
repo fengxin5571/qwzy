@@ -106,6 +106,11 @@ class Article extends Eloquent
             if($request->input('c_id')==5){
                 $where[]=['add_time','>=',$start];
                 $where[]=['add_time','<=',$end];
+            }else {
+                if($request->input('time')!='year'){
+                    $where[]=['add_time','>=',$start];
+                    $where[]=['add_time','<=',$end];
+                }
             }
 
         }
