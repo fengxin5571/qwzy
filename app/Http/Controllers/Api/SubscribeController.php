@@ -147,7 +147,7 @@ class SubscribeController extends Controller{
             Log::error('预约错误'.$e->getMessage());
             return $this->response->error('预约失败',$this->forbidden_code);
         }
-        return $this->successResponse('','预约成功,请在'.config('expire_time').'小时内取卡,取卡码：'.$code);
+        return $this->successResponse('','预约成功,请在'.config('expire_time').'小时内取卡,取卡码：'.$code.',司机姓名：'.$request->input('driver_name').',车牌号：'.strtoupper($request->input('car_number')));
     }
 
     /**
@@ -257,7 +257,7 @@ class SubscribeController extends Controller{
             Log::error('预约错误'.$e->getMessage());
             return $this->response->error('预约失败',$this->forbidden_code);
         }
-        return $this->successResponse("",'预约成功,请在'.config('expire_time').'小时内取卡,取卡码：'.$code);
+        return $this->successResponse("",'预约成功,请在'.config('expire_time').'小时内取卡,取卡码：'.$code.',货主姓名：'.$supplier->shipper_name.',车牌号：'.strtoupper($request->input('car_number')));
     }
     //随机生成短信验证码
     protected function makeRandCode()
